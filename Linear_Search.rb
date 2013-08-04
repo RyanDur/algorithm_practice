@@ -4,25 +4,42 @@ class Linear_Search
     @result = []
   end
 
-  def recursive_find num, container
-    if (container.empty?)
+  def find_first num, container
+    (0...container.size).each do |index|
+      if container.get_at(index) == num
+        return index
+      end
+    end
+    nil
+  end
+
+  def recursive_find_first num, container, index
+    return nil if index >= container.size
+    return index if container.get_at(index) == num
+
+    recursive_find_first num, container, index+=1
+  end
+
+  def recursive_find_all num, container, index
+    if index >= container.size
+      return nil if @result.empty?
+
       res = @result
       @result = []
       return res
     end
 
-    @result.push container.size-1 if container.get_at(container.size-1) == num
-    container.delete_at container.size-1
-    recursive_find(num, container)
+    @result.push index if container.get_at(index) == num
+    recursive_find_all num, container, index+=1
   end
 
-  def find num, container
+  def find_all num, container
     result = []
     (0...container.size).each do |index|
-      if num == container.get_at(index)
+      if container.get_at(index) == num
         result.push index
       end
     end
-    result
+    result.empty? ? nil : result
   end
 end

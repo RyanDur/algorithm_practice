@@ -12,11 +12,12 @@ Linear Search or Sequential Search
     one at a time and in sequence, until the desired one
     is found.) http://en.wikipedia.org/wiki/Linear_search
 
-  This iterates through a collection serching for a match to the number given.
-  The worst case scenario is it may have to move through the whole collection looking
-  for a matching value. Best case is it finds its match in the beginning. This
-  algorithim does not depend on an ordered list since it has to iterate and check
-  every position.
+  * Iterates through a collection serching for a match to the number given.
+  * The worst case scenario is it may have to move through the whole collection
+    looking for a matching value.
+  * Best case is it finds its match in the beginning.
+  * This algorithim does not depend on an ordered list since it has to iterate and
+    check every position.
 
   The steps it takes to finish the function depends on the size of the collection
   it recieves. With the size being n, as n tends towards the infinate the constansts

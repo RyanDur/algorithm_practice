@@ -7,6 +7,7 @@
 
 require_relative '../My_Container'
 require_relative '../Linear_Search'
+require_relative '../Bubble_Sort'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

@@ -42,6 +42,10 @@ class My_Container
     @my_array[index]
   end
 
+  def set_at num, index
+    @my_array[index] = num
+  end
+
   def delete_at index
     value = @my_array[index]
     @my_array[index] = nil

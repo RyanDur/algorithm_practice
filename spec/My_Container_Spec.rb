@@ -28,7 +28,7 @@ describe 'My_Container' do
       container.should be_an_instance_of My_Container
       container.size.should eq(3)
 
-      for num in 0..container.size-1
+      (0...container.size).each do |num|
         container.get_at(num).should eq(1)
       end
     end
@@ -105,7 +105,7 @@ describe 'My_Container' do
       con.size.should eq(6)
       con.contains?(nil).should be_false
 
-      (index..ary.size-1).each do |num|
+      (index...ary.size).each do |num|
         con.get_at(num+1).should eq(ary[num])
       end
     end

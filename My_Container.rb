@@ -62,10 +62,11 @@ class My_Container
     end
   end
 
-  def print_search result
+  def print_search result, num
+    puts "found #{num}, #{result.size} times"
     puts '---------'
     @my_array.each_index do |i|
-      puts "| #{i} | #{@my_array[i]} | #{true if result.include?(i)}"
+      puts "| #{i} | #{@my_array[i]} | #{'<=' if result.include?(i)}"
       puts '---------'
     end
   end

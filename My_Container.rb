@@ -46,6 +46,12 @@ class My_Container
     @my_array[index] = num
   end
 
+  def swap p1, p2
+    temp = @my_array[p1]
+    @my_array[p1] = @my_array[p2]
+    @my_array[p2] = temp
+  end
+
   def delete_at index
     value = @my_array[index]
     @my_array[index] = nil

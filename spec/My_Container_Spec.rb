@@ -141,4 +141,17 @@ describe 'My_Container' do
       @container.equal(con).should be_true
     end
   end
+
+  describe 'swap' do
+    it 'should swap the contents of the positions given' do
+      swapped = My_Container.new [1,0,2,3,4,5,6,7,8,9]
+      @container.swap(0,1)
+      @container.equal(swapped).should be_true
+
+      swapped = My_Container.new [1,0,2,3,4,6,5,7,8,9]
+      @container.swap(5,6)
+      @container.print
+      @container.equal(swapped).should be_true
+    end
+  end
 end

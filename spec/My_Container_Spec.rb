@@ -110,4 +110,35 @@ describe 'My_Container' do
       end
     end
   end
+
+  describe 'equal' do
+    it 'should return false if not passed a My_Container object' do
+      @container.equal([0,1,2,3,4,5,6,7,8,9]).should be_false
+    end
+
+    it 'should return true if two containers have equal contents' do
+      con = My_Container.new 10
+      @container.equal(con).should be_true
+    end
+
+    it 'should retrun false if the contents do not match' do
+      con = My_Container.new [1,1,1,1,1,1,1,1,1,1]
+      @container.equal(con).should be_false
+    end
+  end
+
+  describe 'empty?' do
+    it 'should retrun true if container is empty and false otherwise' do
+      @container.empty?.should be_false
+      empty_container = My_Container.new([])
+      empty_container.empty?.should be_true
+    end
+  end
+
+  describe 'copy' do
+    it 'should return a copy of the container' do
+      con = @container.copy
+      @container.equal(con).should be_true
+    end
+  end
 end

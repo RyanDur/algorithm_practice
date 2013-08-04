@@ -54,6 +54,25 @@ class My_Container
     value
   end
 
+  def empty?
+    @my_array.empty?
+  end
+
+  def copy
+    self.class.new @my_array
+  end
+
+  def equal container
+    return false if container.class != My_Container
+    return false if @my_array.size != container.size
+
+    result = true
+    @my_array.each_index do |index|
+      return result = false if @my_array[index] != container.get_at(index)
+    end
+    result
+  end
+
   def print
     puts '---------'
     @my_array.each_index do |i|

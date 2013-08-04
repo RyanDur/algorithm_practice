@@ -61,4 +61,12 @@ class My_Container
       puts '---------'
     end
   end
+
+  def print_search result
+    puts '---------'
+    @my_array.each_index do |i|
+      puts "| #{i} | #{@my_array[i]} | #{true if result.include?(i)}"
+      puts '---------'
+    end
+  end
 end

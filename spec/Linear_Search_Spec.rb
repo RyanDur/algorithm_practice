@@ -12,5 +12,9 @@ describe 'Linear_Search' do
       @search.find(5).should eq([2,7,8])
       @search.find(3).should eq([6,10])
     end
+
+    it 'should return an empty array if no matches found' do
+      @search.find(1).should eq([])
+    end
   end
 end

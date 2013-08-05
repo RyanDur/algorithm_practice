@@ -14,7 +14,7 @@ describe 'Linear_Search' do
       @search.find_first(12, @container).should eq(5)
     end
 
-    it 'should retunr nil if there are no matches' do
+    it 'should retun nil if there are no matches' do
       @search.find_first(100, @container).should eq(nil)
     end
   end
@@ -52,6 +52,23 @@ describe 'Linear_Search' do
 
     it 'should return nil if no matches found' do
       @search.recursive_find_all(1, @container.copy, 0).should eq(nil)
+    end
+  end
+
+  describe 'ruby_find_first' do
+    it 'should return the first index position of the number given' do
+      container = [2,34,5,6,8,12,3,5,5,6,3]
+      @search.ruby_find_first(3, container).should eq(6)
+      @search.ruby_find_first(5, container).should eq(2)
+      @search.ruby_find_first(12, container).should eq(5)
+    end
+  end
+
+  describe 'ruby_find_all' do
+    it 'should return the set indexs of the value given' do
+      container = [2,34,5,6,8,12,3,5,5,6,3]
+      @search.ruby_find_all(5, container).should eq([2,7,8])
+      @search.ruby_find_all(3, container).should eq([6,10])
     end
   end
 end

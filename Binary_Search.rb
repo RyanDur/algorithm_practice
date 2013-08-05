@@ -1,7 +1,7 @@
 class Binary_Search
 
-  # (...finds the position of a specified input value (the search "key")
-  # within an array sorted by key value.[1][2] In each step,
+  # (...finds the position of a specified input value (the search
+  # "key") within an array sorted by key value.[1][2] In each step,
   # the algorithm compares the search key value with the key value of
   # the middle element of the array. If the keys match, then a
   # matching element has been found and its index, or position, is

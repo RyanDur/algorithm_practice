@@ -1,9 +1,5 @@
 class Linear_Search
 
-  def initialize
-    @result = []
-  end
-
 =begin
 Linear Search or Sequential Search
 
@@ -28,47 +24,52 @@ Linear Search or Sequential Search
 
   # 2n + 1
   def find_first num, container
-    (0...container.size).each do |index|                 # n steps
-      if container.get_at(index) == num                  # n steps
-        return index                                     # 1 step
-      end                                                #
-    end                                                  #
-    nil                                                  # 1 step
+    (0...container.size).each do |index|                    # n steps
+      if container.get_at(index) == num                     # n steps
+        return index                                        # 1 step
+      end                                                   #
+    end                                                     #
+    nil                                                     # 1 step
   end
 
 
   # 3n
   def recursive_find_first num, container, index
-    return nil if index >= container.size                # n steps
-    return index if container.get_at(index) == num       # n steps
-                                                         #
-    recursive_find_first num, container, index+=1        # n steps
+    return nil if index >= container.size                   # n steps
+    return index if container.get_at(index) == num          # n steps
+                                                            #
+    recursive_find_first num, container, index+=1           # n steps
   end
 
 
   # 3n + 4
-  def recursive_find_all num, container, index
-    if index >= container.size                           # n steps
-      return nil if @result.empty?                       # 1 step
-                                                         #
-      res = @result                                      # 1 step
-      @result = []                                       # 1 step
-      return res                                         # 1 step
+  def recursive_find_all num, container, index, result = []
+    if index >= container.size                              # n steps
+      return nil if result.empty?                           # 1 step
+      return result                                         # 1 step
     end
 
-    @result.push index if container.get_at(index) == num # n steps
-    recursive_find_all num, container, index+=1          # n steps
+    result.push index if container.get_at(index) == num     # n steps
+    recursive_find_all num, container, index+=1, result     # n steps
   end
 
 
   # 3n + 2
   def find_all num, container
-    result = []                                          # 1 step
-    (0...container.size).each do |index|                 # n steps
-      if container.get_at(index) == num                  # n steps
-        result.push index                                # n steps
-      end                                                #
-    end                                                  #
-    result.empty? ? nil : result                         # 1 step
+    result = []                                             # 1 step
+    (0...container.size).each do |index|                    # n steps
+      if container.get_at(index) == num                     # n steps
+        result.push index                                   # n steps
+      end                                                   #
+    end                                                     #
+    result.empty? ? nil : result                            # 1 step
+  end
+
+  def ruby_find_first num, container
+    container.index(num)
+  end
+
+  def ruby_find_all num, container
+    container.each_index.select{|i| num == container[i]}
   end
 end

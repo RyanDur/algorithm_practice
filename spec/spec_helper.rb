@@ -10,6 +10,7 @@ require_relative '../Linear_Search'
 require_relative '../Bubble_Sort'
 require_relative '../Selection_Sort'
 require_relative '../Insertion_sort'
+require_relative '../Binary_Search'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

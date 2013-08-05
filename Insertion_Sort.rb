@@ -10,10 +10,12 @@ class Insertion_sort
     (1..collection.size-1).each do |i|
       value = collection.get_at i
       hole = i
+
       while hole > 0 && value < collection.get_at(hole-1)
         collection.set_at(collection.get_at(hole-1), hole)
         hole -= 1
       end
+
       collection.set_at(value, hole)
     end
   end

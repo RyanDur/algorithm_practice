@@ -1,0 +1,55 @@
+function BinarySearch() {}
+
+// The algorithm provides steps to search a collection for a
+// provided search value. The search is performed on a sorted
+// collection by setting an upper and lower boundary as the
+// first and last position of the collection, and selects the
+// middle position as the starting point. If the value being
+// searched for is not found at the center point of the
+// boundary then the search will be performed on either the
+// left or right half of the collection. If the search value
+// is less than the middle value in the collection then it is
+// in the left hand portion and the max position is the old
+// middle point minus one creating a new upper boundary. If
+// the value is greater than the middle value then it is in
+// the right hand portion of the collection, then the minimum
+// will be set to the old middle position plus one creating a
+// new lower boundary. Once the new boundary is set, the
+// middle of this sub-array is compared with the search
+// value. These steps are repeated until the search value is
+// found. If the search value does not match any values in
+// the collection then the return value will be undefined,
+// null or some message indicating there was no match.
+
+BinarySearch.prototype.search = function(collection, val) {
+  // set the lower boundary
+  var min = 0;
+
+  // set the upper boundary
+  var max = collection.size()-1;
+
+  // as long as the upper boundary hasn't fallen beneath the lower
+  while(max >= min) {
+    // set the middle of the of the collection being searched
+    var mid = Math.floor(((min + max)/2));
+
+    // if the value being serched for is greater than the value found
+    if(val > collection.get(mid)) {
+
+      //set the new lower boundary as the old middle point plus one
+      min = mid+1;
+
+      // else if the value being searched is less than the value found
+    } else if(val < collection.get(mid)) {
+
+      // set the new upper boundary as the old middle plus one
+      max = mid-1;
+    } else {
+
+      // if the value is neither greater than the lower boundary and
+      // not less than the upper boundary then the value has been found
+      // and return the position it has located.
+      return mid;
+    }
+  };
+};

@@ -11,6 +11,9 @@ describe('SelectionSort', function() {
 
     it('should return a sorted container', function() {
       expect(ss.sort(container)).toEqual(sortedContainer);
+
+      container = new MyContainer([9,3,2,4,1,5,6,0,7,8]);
+      expect(ss.sort(container)).toEqual(sortedContainer);
     });
   });
 });

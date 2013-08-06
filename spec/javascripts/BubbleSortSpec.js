@@ -11,6 +11,9 @@ describe('BubbleSort', function() {
 
     it('should return a sorted container', function() {
       expect(bs.sort(container)).toEqual(sortedContainer);
+
+      container = new MyContainer([3,2,4,1,5]);
+      expect(bs.sort(container)).toEqual(sortedContainer);
     });
   });
 });

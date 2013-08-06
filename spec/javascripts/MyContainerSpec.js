@@ -40,4 +40,14 @@ describe('MyContainer', function() {
             expect(container.get(41)).toEqual(1000);
         });
     });
+
+    describe('swap', function() {
+        it('should swap the values at the positions given', function() {
+            var container = new MyContainer(10);
+            var swappedContainer = new MyContainer([0,1,2,3,5,4,6,7,8,9]);
+            container.swap(4,5);
+
+            expect(container).toEqual(swappedContainer);
+        });
+    });
 });

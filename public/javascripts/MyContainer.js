@@ -20,3 +20,9 @@ MyContainer.prototype.get = function(index) {
 MyContainer.prototype.set = function(index, val) {
     this.container[index] = val;
 };
+
+MyContainer.prototype.swap = function(p1, p2) {
+  var temp = this.container[p1];
+  this.container[p1] = this.container[p2];
+  this.container[p2] = temp;
+};

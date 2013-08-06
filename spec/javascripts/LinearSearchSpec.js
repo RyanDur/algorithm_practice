@@ -15,7 +15,7 @@ describe('LinearSearch', function() {
         });
 
         it('should return undefined if the value search does not exist', function() {
-            expect(ls.search(container, 10)).toEqual(undefined);
+            expect(ls.search(container, 10)).toBeUndefined;
         });
     });
 });

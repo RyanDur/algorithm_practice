@@ -3,9 +3,9 @@ class Bubble_Sort
   # A sorting algorithm that compares adjacent indices and
   # continually swaps the contents if they are not in sequence.
   #
-  # Visualize the container from left to right, where the
-  # unsorted contents on the left will be less in value than
-  # the contents on the right.
+  # Visualize the container from left to right. Once sorted,
+  # the contents on the left will be less in value than the
+  # contents on the right.
   #
   # Start at the right most position of the container where the
   # contents will be the largest value. If the last two

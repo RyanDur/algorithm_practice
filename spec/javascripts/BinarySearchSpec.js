@@ -6,7 +6,7 @@ describe('BinarySearch', function() {
       container = new MyContainer(100);
     });
 
-    it('should return a sorted container', function() {
+    it('should return the index here the value is found', function() {
       expect(bs.search(container, 5)).toEqual(5);
       expect(bs.search(container, 50)).toEqual(50);
       expect(bs.search(container, 67)).toEqual(67);

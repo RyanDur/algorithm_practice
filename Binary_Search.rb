@@ -1,10 +1,5 @@
 class Binary_Search
 
-      @mock.should_receive(:qwer).twice
-      expect(@mock).not_to receive :asdf
-
-      @ps.publish('button2Click')
-
   # The algorithm provides steps to examine a sorted collection for a
   # stipulated search value. If the search value does not match any
   # values in the collection, then the return value will be undefined,

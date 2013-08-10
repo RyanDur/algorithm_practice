@@ -8,7 +8,7 @@ describe('InsertionSort', function() {
             sortedContainer = new MyContainer(10);
         });
 
-        it('should sort the container', function() {
+        it('should return a sorted container', function() {
             expect(is.sort(container)).toEqual(sortedContainer);
 
             container = new MyContainer([9,3,2,4,1,5,6,0,7,8]);

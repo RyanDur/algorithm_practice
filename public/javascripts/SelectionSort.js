@@ -35,4 +35,5 @@ SelectionSort.prototype.sort = function(container) {
       container.swap(i, min);
     }
   }
+  return container;
 };

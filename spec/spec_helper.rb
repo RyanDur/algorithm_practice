@@ -5,13 +5,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-require_relative '../My_Container'
-require_relative '../Linear_Search'
-require_relative '../Bubble_Sort'
-require_relative '../Selection_Sort'
-require_relative '../Insertion_sort'
-require_relative '../Binary_Search'
-require_relative '../Stack'
+require_relative '../lib/My_Container'
+require_relative '../lib/Linear_Search'
+require_relative '../lib/Bubble_Sort'
+require_relative '../lib/Selection_Sort'
+require_relative '../lib/Insertion_sort'
+require_relative '../lib/Binary_Search'
+require_relative '../lib/Stack'
+require_relative '../lib/Queue'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

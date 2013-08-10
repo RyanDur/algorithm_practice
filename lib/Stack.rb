@@ -8,20 +8,13 @@ class Stack
   end
 
   def push num
-    if @top < @upper_bound
-      @stack[@top+=1] = num
-    else
-      raise "out of bounds"
-    end
+    raise "out of bounds" if @top >= @upper_bound
+    @stack[@top+=1] = num
   end
 
   def pop
-    if @top > @lower_bound
-      @stack[@top] = nil
-      @top -= 1
-    else
-      raise "can't pop empty stack"
-    end
+    raise "can't pop empty stack" if @top <= @lower_bound
+    @top -= 1
   end
 
   def peek

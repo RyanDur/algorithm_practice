@@ -2,11 +2,13 @@ class Linear_Search
 
 =begin
 Linear Search or Sequential Search
+  The algorithm searches through a list sequentially for
+  a provided value
 
-    (...a method for finding a particular value in a list,
-    that consists of checking every one of its elements,
-    one at a time and in sequence, until the desired one
-    is found.) http://en.wikipedia.org/wiki/Linear_search
+  Visualize the container from left to right.
+
+  Search from the beginning of a collection to the end
+  or until the value is found and return the index.
 
   * Iterates through a collection serching for a match to the number given.
   * The worst case scenario is it may have to move through the whole collection
@@ -37,7 +39,7 @@ Linear Search or Sequential Search
   def recursive_find_first num, container, index
     return nil if index >= container.size                   # n steps
     return index if container.get_at(index) == num          # n steps
-                                                            #
+    #
     recursive_find_first num, container, index+=1           # n steps
   end
 

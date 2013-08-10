@@ -1,27 +1,38 @@
 function SelectionSort() {};
 
-// ("The algorithm divides the input list into two parts: the sublist of items already sorted,
-// which is built up from left to right at the front (left) of the list, and the sublist of
-// items remaining to be sorted that occupy the rest of the list. Initially, the sorted
-// sublist is empty and the unsorted sublist is the entire input list. The algorithm proceeds
-// by finding the smallest (or largest, depending on sorting order) element in the unsorted
-// sublist, exchanging it with the leftmost unsorted element (putting it in sorted order),
-// and moving the sublist boundaries one element to the right.")
-// http://en.wikipedia.org/wiki/Selection_sort)
+// An algorithim to sort a collection by swapping the values that are
+// smaller with the larger.
+//
+// Visualize the container from left to right. Once sorted, the contents
+// on the left will be less in value than the contents on the right.
+//
+// From the beginning of the collection, keep the left hand side of the
+// collection sorted by finding the smallest values in sequential order
+// and swapping them with the index.
 
 SelectionSort.prototype.sort = function(container) {
+  // From the beginning to second to last
   for(var i = 0; i < container.size()-1; i++) {
+    // label the index as the minimum
     var min = i;
 
+    // from one past the index
     for(var j = i+1; j < container.size(); j++) {
+
+      // find the smallest value in the collection
+      // if the value at the inner index is smaller than
+      // the minimum
       if(container.get(j) < container.get(min)) {
+        // set the new minimum index
         min = j;
       }
     }
 
+    // as long as the minimum is not the index the pointer is at
     if(min != i) {
+
+      // swap the values
       container.swap(i, min);
     }
   }
-  return container;
 };

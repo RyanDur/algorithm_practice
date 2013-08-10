@@ -25,7 +25,6 @@ describe 'Stack' do
 
       expect{@stack.push 10}.to raise_error "out of bounds"
       @stack.peek.should_not eq 10
-      @stack.size.should_not > 10
     end
   end
 
@@ -54,7 +53,6 @@ describe 'Stack' do
       @stack.pop
 
       expect{@stack.pop}.to raise_error "can't pop empty stack"
-      @stack.size.should_not < 0
     end
   end
 end

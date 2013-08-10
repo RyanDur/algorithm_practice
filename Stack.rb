@@ -3,12 +3,12 @@ class Stack
   def initialize size
     @stack = Array.new size
     @top = -1
-    @upper_bound = size
-    @lower_bound = 0
+    @upper_bound = size-1
+    @lower_bound = -1
   end
 
   def push num
-    if self.size < @upper_bound
+    if @top < @upper_bound
       @stack[@top+=1] = num
     else
       raise "out of bounds"
@@ -16,7 +16,7 @@ class Stack
   end
 
   def pop
-    if self.size > @lower_bound
+    if @top > @lower_bound
       @stack[@top] = nil
       @top -= 1
     else
@@ -26,9 +26,5 @@ class Stack
 
   def peek
     @stack[@top]
-  end
-
-  def size
-    @top + 1
   end
 end

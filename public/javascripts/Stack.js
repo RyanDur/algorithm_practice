@@ -1,12 +1,12 @@
 function Stack(size) {
-  this.upperBound = size;
-  this.lowerBound = 0;
+  this.upperBound = size-1;
+  this.lowerBound = -1;
   this.stack = new Array(size);
   this.top = -1;
 }
 
 Stack.prototype.push = function(value) {
-  if(!this.isFull()) {
+  if(this.top < this.upperBound) {
     this.top++;
     this.stack[this.top] = value;
   } else {
@@ -15,7 +15,7 @@ Stack.prototype.push = function(value) {
 };
 
 Stack.prototype.pop = function() {
-  if(!this.isEmpty()) {
+  if(this.top > this.lowerBound) {
     this.stack[top] = null;
     this.top--;
   } else {
@@ -25,12 +25,4 @@ Stack.prototype.pop = function() {
 
 Stack.prototype.peek = function() {
   return this.stack[this.top];
-};
-
-Stack.prototype.isFull = function() {
-  return this.top+1 > this.upperBound-1;
-};
-
-Stack.prototype.isEmpty = function() {
-  return this.top < 0;
 };

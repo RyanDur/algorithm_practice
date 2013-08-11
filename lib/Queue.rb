@@ -1,3 +1,4 @@
+# bounded queue
 class Queue
 
   def initialize size

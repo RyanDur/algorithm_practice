@@ -1,3 +1,4 @@
+# bounded Stack
 class Stack
 
   def initialize size

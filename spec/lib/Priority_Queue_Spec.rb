@@ -12,6 +12,10 @@ describe 'Priority_Queue' do
       pq.enqueue 9
       pq.front.should eq 9
       pq.rear.should eq 10
+
+      pq.enqueue 11
+      pq.front.should eq 9
+      pq.rear.should eq 11
     end
   end
 end

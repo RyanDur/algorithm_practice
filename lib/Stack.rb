@@ -5,16 +5,16 @@ class Stack
     @stack = Array.new size
     @top = -1
     @upper_bound = size-1
-    @lower_bound = -1
+    @lower_bound = 0
   end
 
   def push num
-    raise "out of bounds" if @top >= @upper_bound
+    raise "out of bounds" if @top+1 > @upper_bound
     @stack[@top+=1] = num
   end
 
   def pop
-    raise "can't pop empty stack" if @top <= @lower_bound
+    raise "can't pop empty stack" if @top < @lower_bound
     @top -= 1
   end
 

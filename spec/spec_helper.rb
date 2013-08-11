@@ -13,6 +13,7 @@ require_relative '../lib/Insertion_sort'
 require_relative '../lib/Binary_Search'
 require_relative '../lib/Stack'
 require_relative '../lib/Queue'
+require_relative '../lib/Priority_Queue'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

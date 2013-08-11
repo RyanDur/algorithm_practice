@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Queue' do
 
   describe 'enqueue' do
-    it 'should put the value at the front of the collection' do
+    it 'should put the value at the end of the collection' do
       queue = Queue.new 10
 
       queue.enqueue 3
@@ -40,7 +40,7 @@ describe 'Queue' do
       queue.front.should eq 2
     end
 
-    it 'should raise an error if popping an empty queue' do
+    it 'should raise an error if dequeuing an empty queue' do
       queue = Queue.new 0
       expect{queue.dequeue}.to raise_error 'Queue is empty'
 

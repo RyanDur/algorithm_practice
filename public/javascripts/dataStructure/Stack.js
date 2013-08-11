@@ -1,3 +1,4 @@
+// bounded Stack
 function Stack(size) {
   this.upperBound = size-1;
   this.lowerBound = -1;

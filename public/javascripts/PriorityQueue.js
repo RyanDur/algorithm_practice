@@ -1,12 +1,13 @@
 PriorityQueue.prototype = new Queue();
 PriorityQueue.prototype.constructor = PriorityQueue;
+PriorityQueue.prototype.parent = Queue.prototype;
 
 function PriorityQueue(size) {
-  Queue.call(this, size);
+  this.parent.constructor.call(this, size);
 }
 
 PriorityQueue.prototype.enqueue = function(value) {
-  Queue.prototype.enqueue.call(this, value);
+  this.parent.enqueue.call(this, value);
   this.sort();
 };
 

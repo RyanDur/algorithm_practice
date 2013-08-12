@@ -13,6 +13,7 @@ require_relative '../lib/search/Binary_Search'
 require_relative '../lib/sort/Bubble_Sort'
 require_relative '../lib/sort/Selection_Sort'
 require_relative '../lib/sort/Insertion_sort'
+require_relative '../lib/sort/Merge_Sort'
 
 require_relative '../lib/data_structure/Stack'
 require_relative '../lib/data_structure/Queue'

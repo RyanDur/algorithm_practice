@@ -1,9 +1,3 @@
-//Array.prototype.join = (function(originalJoin) {
-//  return function(separator) {
-//    return originalJoin.call(this, separator===undefined?separator:'|');
-//  }; 
-//})(Array.prototype.join);
-
 describe('PriorityQueue', function() {
 
   describe('enqueue', function() {

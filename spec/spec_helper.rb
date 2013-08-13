@@ -18,6 +18,7 @@ require_relative '../lib/sort/Merge_Sort'
 require_relative '../lib/data_structure/Stack'
 require_relative '../lib/data_structure/Queue'
 require_relative '../lib/data_structure/Priority_Queue'
+require_relative '../lib/data_structure/Heap'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

@@ -20,6 +20,18 @@ describe Heap do
 
       should eq 10
     end
+
+    its :front do
+      inserts 2, 3, 4
+
+      should eq 4
+    end
+
+    its :front do
+      inserts 4, 2, 6, 34, 7, 89, 5
+
+      should eq 89
+    end
   end
 
   describe 'when deleting' do
@@ -46,8 +58,16 @@ describe Heap do
 
     its :front do
       inserts 2, 3, 4
+      subject.delete_front
 
-      should eq 4
+      should eq 3
+    end
+
+    its :front do
+      inserts 4, 2, 6, 34, 7, 89, 5
+      subject.delete_front
+
+      should eq 34
     end
   end
 

@@ -71,6 +71,13 @@ describe Heap do
     end
   end
 
+  describe 'when initialized with an array' do
+    subject {Heap.new [1,2,3,4,5]}
+    its :front do
+      should eq 5
+    end
+  end
+
   def inserts *args
     args.each do |arg|
       subject.insert arg

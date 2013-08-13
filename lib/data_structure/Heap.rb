@@ -1,7 +1,12 @@
 class Heap
 
-  def initialize
+  def initialize values = []
     @values = []
+    if !values.empty?
+      values.each do |value|
+        insert value
+      end
+    end
   end
 
   def insert value
@@ -10,7 +15,7 @@ class Heap
   end
 
   def front
-    @values[0]
+    @values.first
   end
 
   def delete_front
@@ -26,7 +31,7 @@ class Heap
 
   def sort_down parent = 0
     left_child = 2*parent + 1
-    right_child = 2*parent + 2
+    right_child = left_child + 1
 
     if @values[right_child] &&
       @values[left_child] < @values[right_child] &&
@@ -34,6 +39,7 @@ class Heap
 
       swap parent, right_child
       sort_down parent = right_child
+
     elsif @values[left_child] &&
       @values[parent] < @values[left_child]
 

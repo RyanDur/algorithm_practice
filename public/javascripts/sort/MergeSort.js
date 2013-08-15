@@ -1,20 +1,17 @@
 function MergeSort() {};
 
 MergeSort.prototype.sort = function(collection) {
-    var result = [];
-    if (collection.length > 1) {
-        var mid = Math.floor(collection.length / 2);
-        var left = this.split(collection, 0, mid);
-        var right = this.split(collection, mid, collection.length);
-        console.log(mid);
-
-        console.dir(left);
-        console.dir(right);
-        //left = this.sort(left);
-        //right = this.sort(right);
+    if (collection.length <= 1) {
+        return collection;
     }
-    result = this.merge(left, right);
-    return result;
+
+    var mid = Math.floor(collection.length / 2);
+    var left = this.split(collection, 0, mid);
+    var right = this.split(collection, mid, collection.length);
+
+    left = this.sort(left);
+    right = this.sort(right);
+    return this.merge(left, right);
 };
 
 MergeSort.prototype.merge = function(left, right) {
@@ -33,7 +30,6 @@ MergeSort.prototype.merge = function(left, right) {
             result.push(right.shift());
         }
     }
-
     return result;
 };
 

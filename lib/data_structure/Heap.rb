@@ -2,11 +2,7 @@ class Heap
 
   def initialize values = []
     @values = []
-    if !values.empty?
-      values.each do |value|
-        insert value
-      end
-    end
+    values.each{|value| insert value} unless values.empty?
   end
 
   def insert value

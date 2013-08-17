@@ -4,13 +4,14 @@ MergeSort.prototype.sort = function(collection) {
     if (collection.length <= 1) {
         return collection;
     }
-
     var mid = Math.floor(collection.length / 2);
+
     var left = this.split(collection, 0, mid);
     var right = this.split(collection, mid, collection.length);
 
     left = this.sort(left);
     right = this.sort(right);
+
     return this.merge(left, right);
 };
 

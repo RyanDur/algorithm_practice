@@ -5,6 +5,7 @@ function Heap() {
 Heap.prototype.insert = function(value) {
   this.heap.push(value);
   this.sortUp();
+  console.log("hello");
 };
 
 Heap.prototype.front = function() {

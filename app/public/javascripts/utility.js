@@ -7,12 +7,12 @@ var forEach = function(collection, func) {
   }
 };
 
-var findClass = function(name) {
+var find = function(name) {
   return new RegExp('(\\s|^  )'+name+'(\\s|$)');
 };
 
 var hasClass = function(el, name) {
-  return findClass(name).test(el.className);
+  return new RegExp('(\\s|^ )'+name+'(\\s|$)').test(el.className);
 };
 
 var addClass = function(el, name) {
@@ -21,7 +21,7 @@ var addClass = function(el, name) {
 
 var removeClass = function(el, name) {
   if (hasClass(el, name)) {
-    el.className=el.className.replace(findClass(name)).replace(/^\s+|\s+$/g, '');
+    el.className=el.className.replace(new RegExp('(\\s|^ )'+name+'(\\s|$)' ),' ').replace(/^\s+|\s+$/g, '');
   }
 };
 

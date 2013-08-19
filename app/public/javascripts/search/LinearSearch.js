@@ -19,6 +19,10 @@ LinearSearch.prototype.insertInto = function(elem) {
 
 LinearSearch.prototype.search = function(value) {
   var list = this.elem.getElementsByTagName('li');
+  forEach(list, function(li) {
+    removeClass(li, 'search');
+    removeClass(li, 'found');
+  });
 
   forEach(list, function(li, index) {
     var t = setTimeout(function() { 

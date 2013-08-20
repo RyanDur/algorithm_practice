@@ -4,15 +4,13 @@
 var LinearSearch = require('./search/LinearSearch');
 var BinarySearch = require('./search/BinarySearch');
 
-var collection = [4,3,6,7,8,9,5,0,1,2];
-var collection1 = [0,1,2,3,4,5,6,7,8,9];
-
-var time = collection.length*1000;
+var time = 10000;
 
 document.onreadystatechange = function() {
+  console.log(document.readyState);
   if (document.readyState === 'complete') {
     var demo0 = document.getElementById('demo0');
-    var ls = new LinearSearch(appendUnorderedList(demo0, collection));
+    var ls = new LinearSearch(demo0);
     ls.search(Math.floor(Math.random() * 10));
     setInterval(function() {ls.search(Math.floor(Math.random() * 10));}, time);
 
@@ -91,8 +89,12 @@ module.exports = BinarySearch;
 },{}],3:[function(require,module,exports){
 "use strict";
 
-function LinearSearch(elem) {
-  this.elem = elem;
+function LinearSearch(elem, collection) {
+  var collection = collection;
+  if(collection === undefined) {
+    collection = [4,3,6,7,8,9,5,0,1,2];
+  }
+  this.elem = appendUnorderedList(elem, collection);
 };
 
 LinearSearch.prototype.search = function(value) {

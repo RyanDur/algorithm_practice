@@ -1,7 +1,11 @@
 "use strict";
 
-function LinearSearch(elem) {
-  this.elem = elem;
+function LinearSearch(elem, collection) {
+  var collection = collection;
+  if(collection === undefined) {
+    collection = [4,3,6,7,8,9,5,0,1,2];
+  }
+  this.elem = appendUnorderedList(elem, collection);
 };
 
 LinearSearch.prototype.search = function(value) {

@@ -1,3 +1,5 @@
+"use strict";
+
 var LinearSearch = require('./search/LinearSearch');
 var BinarySearch = require('./search/BinarySearch');
 var DomCollection = require('./DomCollection');

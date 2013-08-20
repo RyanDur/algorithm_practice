@@ -1,3 +1,5 @@
+"use strict";
+
 function BinarySearch(elem) {
   this.elem = elem;
 };

@@ -1,3 +1,5 @@
+"use strict";
+
 var forEach = function(collection, func) {
   for(var i = 0; i < collection.length; i++) {
     var val = func(collection[i], i);

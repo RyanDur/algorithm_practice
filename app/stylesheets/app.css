@@ -7217,14 +7217,14 @@ a.th {
   max-width: 800px;
 }
 
-/* line 82, ../sass/app.scss */
+/* line 85, ../sass/app.scss */
 #demo0 {
-  position: fixed;
   top: 35%;
+  position: fixed;
   left: 50%;
   margin: -50px 0 0 -300px;
 }
-/* line 59, ../sass/app.scss */
+/* line 62, ../sass/app.scss */
 #demo0 li {
   -webkit-transition: all 0.5s ease-out;
   -moz-transition: all 0.5s ease-out;
@@ -7235,29 +7235,29 @@ a.th {
   padding: .2em 1em;
   border: 1px solid black;
 }
-/* line 67, ../sass/app.scss */
+/* line 70, ../sass/app.scss */
 #demo0 .found {
   color: red;
 }
-/* line 71, ../sass/app.scss */
+/* line 74, ../sass/app.scss */
 #demo0 .search {
   opacity: 1;
   border-top: 4px solid black;
   border-bottom: 4px solid black;
 }
-/* line 77, ../sass/app.scss */
+/* line 80, ../sass/app.scss */
 #demo0 .ignore {
   background: gray;
 }
 
 /* line 90, ../sass/app.scss */
 #demo1 {
-  position: fixed;
   top: 50%;
+  position: fixed;
   left: 50%;
   margin: -50px 0 0 -300px;
 }
-/* line 59, ../sass/app.scss */
+/* line 62, ../sass/app.scss */
 #demo1 li {
   -webkit-transition: all 0.5s ease-out;
   -moz-transition: all 0.5s ease-out;
@@ -7268,17 +7268,17 @@ a.th {
   padding: .2em 1em;
   border: 1px solid black;
 }
-/* line 67, ../sass/app.scss */
+/* line 70, ../sass/app.scss */
 #demo1 .found {
   color: red;
 }
-/* line 71, ../sass/app.scss */
+/* line 74, ../sass/app.scss */
 #demo1 .search {
   opacity: 1;
   border-top: 4px solid black;
   border-bottom: 4px solid black;
 }
-/* line 77, ../sass/app.scss */
+/* line 80, ../sass/app.scss */
 #demo1 .ignore {
   background: gray;
 }

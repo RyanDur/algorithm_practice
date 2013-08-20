@@ -15,12 +15,12 @@ document.onreadystatechange = function() {
     var demo0 = document.getElementById('demo0');
     ls.insertInto(demo0);
     ls.search(Math.floor(Math.random() * 10));
-    setInterval(function() {ls.search(Math.floor(Math.random() * 10))}, time);
+    setInterval(function() {ls.search(Math.floor(Math.random() * 10));}, time);
 
     var demo1 = document.getElementById('demo1');
     bs.insertInto(demo1);
     bs.search(6);
-    setInterval(function() {bs.search(6);}, time);
+    setInterval(function() {bs.search(Math.floor(Math.random() * 10));}, time);
   }
 };
 
@@ -121,30 +121,28 @@ LinearSearch.prototype.insertInto = function(elem) {
 };
 
 LinearSearch.prototype.search = function(value) {
+  var index = 0;
   var list = this.elem.getElementsByTagName('li');
   forEach(list, function(li) {
     removeClass(li, 'search');
     removeClass(li, 'found');
   });
 
-  forEach(list, function(li, index) {
-    var t = setTimeout(function() { 
-      if(index > 0) {
-        removeClass(list[index-1], 'search');
-      }
+  var t = setInterval(function() { 
+    if(index > 0) {
+      removeClass(list[index-1], 'search');
+    }
+    var li = list[index];
 
-      addClass(li, 'search');
-
-      if (li.innerHTML == value) {
-        addClass(li, 'found');
-        clearTimeout(t);
-      }
-    }, index*800);
+    addClass(li, 'search');
 
     if (li.innerHTML == value) {
-      return false;
+      addClass(li, 'found');
+      clearInterval(t);
     }
-  });
+
+    index++;
+  }, 800);
 };
 
 },{}]},{},[1])

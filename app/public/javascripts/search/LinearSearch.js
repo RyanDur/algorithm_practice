@@ -5,8 +5,6 @@ function LinearSearch(collection) {
   this.elem;
 };
 
-module.exports = LinearSearch;
-
 LinearSearch.prototype.insertInto = function(elem) {
   appendChildTo(elem, 'ul', 'collection');
   var ul = elem.getElementsByClassName('collection').item(0);
@@ -20,28 +18,28 @@ LinearSearch.prototype.insertInto = function(elem) {
 };
 
 LinearSearch.prototype.search = function(value) {
+  var index = 0;
   var list = this.elem.getElementsByTagName('li');
   forEach(list, function(li) {
     removeClass(li, 'search');
     removeClass(li, 'found');
   });
 
-  forEach(list, function(li, index) {
-    var t = setTimeout(function() { 
-      if(index > 0) {
-        removeClass(list[index-1], 'search');
-      }
+  var t = setInterval(function() { 
+    if(index > 0) {
+      removeClass(list[index-1], 'search');
+    }
+    var li = list[index];
 
-      addClass(li, 'search');
-
-      if (li.innerHTML == value) {
-        addClass(li, 'found');
-        clearTimeout(t);
-      }
-    }, index*800);
+    addClass(li, 'search');
 
     if (li.innerHTML == value) {
-      return false;
+      addClass(li, 'found');
+      clearInterval(t);
     }
-  });
+
+    index++;
+  }, 800);
 };
+
+module.exports = LinearSearch;

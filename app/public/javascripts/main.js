@@ -14,11 +14,11 @@ document.onreadystatechange = function() {
     var demo0 = document.getElementById('demo0');
     ls.insertInto(demo0);
     ls.search(Math.floor(Math.random() * 10));
-    setInterval(function() {ls.search(Math.floor(Math.random() * 10))}, time);
+    setInterval(function() {ls.search(Math.floor(Math.random() * 10));}, time);
 
     var demo1 = document.getElementById('demo1');
     bs.insertInto(demo1);
     bs.search(6);
-    setInterval(function() {bs.search(6);}, time);
+    setInterval(function() {bs.search(Math.floor(Math.random() * 10));}, time);
   }
 };

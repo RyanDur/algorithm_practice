@@ -56,6 +56,9 @@
 // @import "foundation/components/dropdown";
 
 @mixin demo {
+  position: fixed;
+  left: 50%;
+  margin: -50px 0 0 -300px;
   li {
     @include transition(all 0.5s ease-out);
     opacity: 0.5;
@@ -80,17 +83,11 @@
 }
 
 #demo0 {
-  position: fixed;
   top: 35%;
-  left: 50%;
-  margin: -50px 0 0 -300px;
   @include demo;
 }
 
 #demo1 {
-  position: fixed;
   top: 50%;
-  left: 50%;
-  margin: -50px 0 0 -300px;
   @include demo;
 }

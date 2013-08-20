@@ -9,14 +9,18 @@ function LinearSearch(elem, collection) {
 };
 
 LinearSearch.prototype.search = function(value) {
-  var index = 0;
-  var list = this.elem.getElementsByTagName('li');
+  var index = 0, list = this.elem.getElementsByTagName('li');
   forEach(list, function(li) {
     removeClass(li, 'search');
     removeClass(li, 'found');
   });
 
   var t = setInterval(function() { 
+    if(index >= list.length) {
+      removeClass(list[index-1], 'search');
+      clearInterval(t);
+      return;
+    }
     if(index > 0) {
       removeClass(list[index-1], 'search');
     }

@@ -11,12 +11,14 @@ document.onreadystatechange = function() {
     var demo0 = document.getElementById('demo0');
     var ls = new LinearSearch(demo0);
     ls.search(Math.floor(Math.random() * 10));
-    setInterval(function() {ls.search(Math.floor(Math.random() * 10));}, time);
+    //setInterval(function() {ls.search(Math.floor(Math.random() * 11));}, time);
+    setInterval(function() {ls.search(10);}, time);
 
     var demo1 = document.getElementById('demo1');
     var bs = new BinarySearch(demo1);
     bs.search(Math.floor(Math.random() * 10));
-    setInterval(function() {bs.search(Math.floor(Math.random() * 10));}, time);
+    //setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
+    setInterval(function() {bs.search(10);}, time);
   }
 };
 
@@ -40,15 +42,17 @@ BinarySearch.prototype.search = function(value) {
   var t = setInterval(function() {
     var mid = Math.floor((min + max)/2);
     if (max < min) {
+      lastMid = false;
+      range = false;
       clearInterval(t);
       return;
-    }
-    if(range) {
-      ignore(range, elements);
     }
     if(lastMid) {
       addClass(elements[lastMid], 'ignore');
       removeClass(elements[lastMid], 'search');
+    }
+    if(range) {
+      ignore(range, elements);
     }
 
     addClass(elements[mid], 'search');
@@ -71,9 +75,10 @@ BinarySearch.prototype.search = function(value) {
 
 var clean = function(elements) {
   forEach(elements, function(el) {
-    removeClass(el, 'ignore');
     removeClass(el, 'found');
     removeClass(el, 'search');
+    removeClass(el, 'ignore');
+    console.log(el);
   });
 };
 
@@ -97,14 +102,18 @@ function LinearSearch(elem, collection) {
 };
 
 LinearSearch.prototype.search = function(value) {
-  var index = 0;
-  var list = this.elem.getElementsByTagName('li');
+  var index = 0, list = this.elem.getElementsByTagName('li');
   forEach(list, function(li) {
     removeClass(li, 'search');
     removeClass(li, 'found');
   });
 
   var t = setInterval(function() { 
+    if(index >= list.length) {
+      removeClass(list[index-1], 'search');
+      clearInterval(t);
+      return;
+    }
     if(index > 0) {
       removeClass(list[index-1], 'search');
     }

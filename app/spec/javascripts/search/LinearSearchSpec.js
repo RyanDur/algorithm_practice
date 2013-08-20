@@ -5,7 +5,6 @@ describe('LinearSearch', function() {
     searchList = [5,3,4,2,1,6,9,8,0,7];
     setFixtures($("<div class='demo'></div>"));
     ls = new LinearSearch($('.demo').get(0), searchList);
-    jasmine.Clock.useMock();
   });
 
   describe('init', function() {
@@ -15,6 +14,10 @@ describe('LinearSearch', function() {
   });
 
   describe('search', function() {
+    beforeEach(function() {
+      jasmine.Clock.useMock();
+    });
+
     it('should search for a given value', function() {
       ls.search(8);
       jasmine.Clock.tick(10000);
@@ -57,6 +60,15 @@ describe('LinearSearch', function() {
 
       expect($('.index9')).not.toHaveClass('found');
       expect($('.index9')).not.toHaveClass('search');
+    });
+
+    it('should stop animation and return if the value is not in the list', function() {
+      ls.search(10);
+      jasmine.Clock.tick(10000);
+      forEach($('.collection > li'), function(li) {
+        expect(li).not.toHaveClass('search');
+        expect(li).not.toHaveClass('found');
+      });
     });
   });
 });

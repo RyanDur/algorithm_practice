@@ -17,15 +17,17 @@ BinarySearch.prototype.search = function(value) {
   var t = setInterval(function() {
     var mid = Math.floor((min + max)/2);
     if (max < min) {
+      lastMid = false;
+      range = false;
       clearInterval(t);
       return;
-    }
-    if(range) {
-      ignore(range, elements);
     }
     if(lastMid) {
       addClass(elements[lastMid], 'ignore');
       removeClass(elements[lastMid], 'search');
+    }
+    if(range) {
+      ignore(range, elements);
     }
 
     addClass(elements[mid], 'search');
@@ -48,9 +50,10 @@ BinarySearch.prototype.search = function(value) {
 
 var clean = function(elements) {
   forEach(elements, function(el) {
-    removeClass(el, 'ignore');
     removeClass(el, 'found');
     removeClass(el, 'search');
+    removeClass(el, 'ignore');
+    console.log(el);
   });
 };
 

@@ -6,7 +6,6 @@ var BinarySearch = require('./search/BinarySearch');
 var time = 10000;
 
 document.onreadystatechange = function() {
-  console.log(document.readyState);
   if (document.readyState === 'complete') {
     var demo0 = document.getElementById('demo0');
     var ls = new LinearSearch(demo0);

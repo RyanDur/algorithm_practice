@@ -53,7 +53,6 @@ var clean = function(elements) {
     removeClass(el, 'found');
     removeClass(el, 'search');
     removeClass(el, 'ignore');
-    console.log(el);
   });
 };
 

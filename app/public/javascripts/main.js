@@ -10,13 +10,11 @@ document.onreadystatechange = function() {
     var demo0 = document.getElementById('demo0');
     var ls = new LinearSearch(demo0);
     ls.search(Math.floor(Math.random() * 10));
-    //setInterval(function() {ls.search(Math.floor(Math.random() * 11));}, time);
-    setInterval(function() {ls.search(10);}, time);
+    setInterval(function() {ls.search(Math.floor(Math.random() * 11));}, time);
 
     var demo1 = document.getElementById('demo1');
     var bs = new BinarySearch(demo1);
     bs.search(Math.floor(Math.random() * 10));
-    //setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
-    setInterval(function() {bs.search(10);}, time);
+    setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
   }
 };

@@ -11,14 +11,12 @@ document.onreadystatechange = function() {
     var demo0 = document.getElementById('demo0');
     var ls = new LinearSearch(demo0);
     ls.search(Math.floor(Math.random() * 10));
-    //setInterval(function() {ls.search(Math.floor(Math.random() * 11));}, time);
-    setInterval(function() {ls.search(10);}, time);
+    setInterval(function() {ls.search(Math.floor(Math.random() * 11));}, time);
 
     var demo1 = document.getElementById('demo1');
     var bs = new BinarySearch(demo1);
     bs.search(Math.floor(Math.random() * 10));
-    //setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
-    setInterval(function() {bs.search(10);}, time);
+    setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
   }
 };
 
@@ -42,8 +40,6 @@ BinarySearch.prototype.search = function(value) {
   var t = setInterval(function() {
     var mid = Math.floor((min + max)/2);
     if (max < min) {
-      lastMid = false;
-      range = false;
       clearInterval(t);
       return;
     }
@@ -78,7 +74,6 @@ var clean = function(elements) {
     removeClass(el, 'found');
     removeClass(el, 'search');
     removeClass(el, 'ignore');
-    console.log(el);
   });
 };
 

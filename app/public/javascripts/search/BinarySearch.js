@@ -17,8 +17,6 @@ BinarySearch.prototype.search = function(value) {
   var t = setInterval(function() {
     var mid = Math.floor((min + max)/2);
     if (max < min) {
-      lastMid = false;
-      range = false;
       clearInterval(t);
       return;
     }

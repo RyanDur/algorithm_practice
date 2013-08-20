@@ -1,7 +1,11 @@
 "use strict";
 
-function BinarySearch(elem) {
-  this.elem = elem;
+function BinarySearch(elem, collection) {
+  var collection = collection;
+  if(collection === undefined) {
+    collection = [0,1,2,3,4,5,6,7,8,9];
+  }
+  this.elem = appendUnorderedList(elem, collection);
 };
 
 BinarySearch.prototype.search = function(value) {

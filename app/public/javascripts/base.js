@@ -1,22 +1,8 @@
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-function DomCollection(elem, collection) {
-  appendChildTo(elem, 'ul', 'collection');
-  var ul = elem.getElementsByClassName('collection').item(0);
+"use strict";
 
-  forEach(collection, function(value, index) {
-    appendChildTo(ul, 'li', 'index'+ index);
-    ul.lastElementChild.innerHTML = value;
-  });
-
-  return elem;
-};
-
-module.exports = DomCollection;
-
-},{}],2:[function(require,module,exports){
 var LinearSearch = require('./search/LinearSearch');
 var BinarySearch = require('./search/BinarySearch');
-var DomCollection = require('./DomCollection');
 
 var collection = [4,3,6,7,8,9,5,0,1,2];
 var collection1 = [0,1,2,3,4,5,6,7,8,9];
@@ -31,15 +17,21 @@ document.onreadystatechange = function() {
     setInterval(function() {ls.search(Math.floor(Math.random() * 10));}, time);
 
     var demo1 = document.getElementById('demo1');
-    var bs = new BinarySearch(appendUnorderedList(demo1, collection1));
+    var bs = new BinarySearch(demo1);
     bs.search(Math.floor(Math.random() * 10));
     setInterval(function() {bs.search(Math.floor(Math.random() * 10));}, time);
   }
 };
 
-},{"./DomCollection":1,"./search/BinarySearch":3,"./search/LinearSearch":4}],3:[function(require,module,exports){
-function BinarySearch(elem) {
-  this.elem = elem;
+},{"./search/BinarySearch":2,"./search/LinearSearch":3}],2:[function(require,module,exports){
+"use strict";
+
+function BinarySearch(elem, collection) {
+  var collection = collection;
+  if(collection === undefined) {
+    collection = [0,1,2,3,4,5,6,7,8,9];
+  }
+  this.elem = appendUnorderedList(elem, collection);
 };
 
 BinarySearch.prototype.search = function(value) {
@@ -96,7 +88,7 @@ var ignore = function(range, elements) {
 
 module.exports = BinarySearch;
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 function LinearSearch(elem) {
@@ -130,5 +122,5 @@ LinearSearch.prototype.search = function(value) {
 
 module.exports = LinearSearch;
 
-},{}]},{},[2])
+},{}]},{},[1])
 ;

@@ -115,6 +115,7 @@ LinearSearch.prototype.search = function(value) {
     if (li.innerHTML == value) {
       addClass(li, 'found');
       clearInterval(t);
+      return;
     }
 
     index++;

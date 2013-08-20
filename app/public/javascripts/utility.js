@@ -30,3 +30,15 @@ var appendChildTo = function(elem, tag, className) {
   addClass(node, className);
   elem.appendChild(node);
 };
+
+var appendUnorderedList = function(elem, collection) {
+  appendChildTo(elem, 'ul', 'collection');
+  var ul = elem.getElementsByClassName('collection').item(0);
+
+  forEach(collection, function(value, index) {
+    appendChildTo(ul, 'li', 'index'+ index);
+    ul.lastElementChild.innerHTML = value;
+  });
+
+  return elem;
+};

@@ -1,19 +1,6 @@
 "use strict";
 
-function LinearSearch(collection) {
-  this.collection = collection;
-  this.elem;
-};
-
-LinearSearch.prototype.insertInto = function(elem) {
-  appendChildTo(elem, 'ul', 'collection');
-  var ul = elem.getElementsByClassName('collection').item(0);
-
-  forEach(this.collection, function(value, index) {
-    appendChildTo(ul, 'li', 'index'+ index);
-    ul.lastElementChild.innerHTML = value;
-  });
-
+function LinearSearch(elem) {
   this.elem = elem;
 };
 

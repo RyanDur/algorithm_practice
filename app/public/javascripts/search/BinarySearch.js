@@ -1,26 +1,11 @@
-function BinarySearch(collection) {
-  this.collection = collection;
-  this.elem;
-};
-
-BinarySearch.prototype.insertInto = function(elem) {
-  appendChildTo(elem, 'ul', 'collection');
-  var ul = elem.getElementsByClassName('collection').item(0);
-
-  forEach(this.collection, function(value, index) {
-    appendChildTo(ul, 'li', 'index'+ index);
-    ul.lastElementChild.innerHTML = value;
-  });
-
+function BinarySearch(elem) {
   this.elem = elem;
 };
 
-var t;
-
 BinarySearch.prototype.search = function(value) {
   var min = 0, lastMid, range;
-  var max = this.collection.length-1;
   var elements = this.elem.getElementsByTagName('li');
+  var max = elements.length-1;
   clean(elements);
 
   var t = setInterval(function() {

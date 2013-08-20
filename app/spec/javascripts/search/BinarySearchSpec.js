@@ -1,6 +1,5 @@
 describe('BinarySearch', function() {
-  var bs;
-  var searchList;
+  var bs, searchList;
 
   beforeEach(function() {
     searchList = [0,1,2,3,4,5,6,7,8,9];
@@ -8,7 +7,7 @@ describe('BinarySearch', function() {
     bs = new BinarySearch($('.demo').get(0));
   });
 
-  describe('insertInto', function() {
+  describe('init', function() {
     it('should insert the elements into the dom', function() {
       expect($('.collection > li')).toHaveLength(searchList.length);
     });
@@ -26,6 +25,7 @@ describe('BinarySearch', function() {
         expect($('.index' + i)).not.toHaveClass('search');
         expect($('.index' + i)).not.toHaveClass('ignore');
       }
+
       jasmine.Clock.tick(2000);
       for(var i = 0; i < 10; i++) {
         expect($('.index' + i)).not.toHaveClass('found');

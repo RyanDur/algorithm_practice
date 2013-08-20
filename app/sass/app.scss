@@ -55,11 +55,7 @@
 // @import "foundation/components/tooltips";
 // @import "foundation/components/dropdown";
 
-#demo {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin: -50px 0 0 -300px;
+@mixin demo {
   li {
     @include transition(all 0.5s ease-out);
     opacity: 0.5;
@@ -77,4 +73,24 @@
     border-top: 4px solid black;
     border-bottom: 4px solid black;
   }
+
+  .ignore {
+    background: gray;
+  }
+}
+
+#demo0 {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  margin: -50px 0 0 -300px;
+  @include demo;
+}
+
+#demo1 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -50px 0 0 -300px;
+  @include demo;
 }

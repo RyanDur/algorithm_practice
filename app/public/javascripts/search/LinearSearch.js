@@ -1,3 +1,5 @@
+"use strict";
+
 function LinearSearch(collection) {
   this.collection = collection;
   this.elem;

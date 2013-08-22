@@ -180,21 +180,23 @@ var swap = function(elem, a, b) {
     appendChildTo(elem.getElementsByClassName('collection').item(0), 'li', 'swapA');
     appendChildTo(elem.getElementsByClassName('collection').item(0), 'li', 'swapB');
 
-    var positionA = getPosition(a);
-    var positionB = getPosition(b);
     var i = elem.getElementsByClassName('swapA').item(0);
     var j = elem.getElementsByClassName('swapB').item(0);
     i.innerHTML = a.innerHTML;
     j.innerHTML = b.innerHTML;
-    var positionI = getPosition(i);
-    var positionJ = getPosition(j);
+    var pA = parseInt(getPosition(a).x);
+    var pB = parseInt(getPosition(b).x);
+    var pI = pA - parseInt(getPosition(i).x);
+    var pJ = pB - parseInt(getPosition(j).x);
 
     executeAsynchronously(
     [function() {
-        i.style.left = parseInt(positionA.x - positionI.x) + "px";
-        j.style.left = parseInt(positionB.x - positionJ.x)+1 + "px";
+        // travel to swapping positions
+        i.style.left = pI + "px";
+        j.style.left = pJ + 1 + "px";
     },
     function() {
+        // replace orginal with copys that animate
         addClass(i, 'search');
         addClass(j, 'search');
         i.style.visibility = "visible";
@@ -203,6 +205,7 @@ var swap = function(elem, a, b) {
         b.style.visibility = "hidden";
     },
     function() {
+        // take copies out of the row
         var temp = a.innerHTML;
         a.innerHTML = b.innerHTML;
         b.innerHTML = temp;
@@ -210,14 +213,17 @@ var swap = function(elem, a, b) {
         j.style.top = b.offsetHeight-1 + "px";
     },
     function() {
-        i.style.left = (parseInt(i.style.left) + i.offsetWidth) + "px";
-        j.style.left = (parseInt(j.style.left) - j.offsetWidth) + "px";
+        // swap x positions
+        i.style.left = pJ + 1 + i.offsetWidth + "px";
+        j.style.left = pI - j.offsetWidth + "px";
     },
     function() {
+        // place copies back into the row
         i.style.top = parseInt(i.style.top) + a.offsetHeight + "px";
         j.style.top = parseInt(j.style.top) + -b.offsetHeight+1 + "px";
     },
     function() {
+        // remove copies and reveal original with swapped values
         i.style.visibility = "hidden";
         j.style.visibility = "hidden";
         a.style.visibility = "visible";

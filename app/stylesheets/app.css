@@ -7217,7 +7217,7 @@ a.th {
   max-width: 800px;
 }
 
-/* line 97, ../sass/app.scss */
+/* line 95, ../sass/app.scss */
 #demo0 {
   top: 35%;
   position: fixed;
@@ -7251,18 +7251,16 @@ a.th {
 }
 /* line 84, ../sass/app.scss */
 #demo0 .swapA {
-  opacity: 1;
   position: relative;
   visibility: hidden;
 }
-/* line 90, ../sass/app.scss */
+/* line 89, ../sass/app.scss */
 #demo0 .swapB {
-  opacity: 1;
   position: relative;
   visibility: hidden;
 }
 
-/* line 102, ../sass/app.scss */
+/* line 100, ../sass/app.scss */
 #demo1 {
   top: 50%;
   position: fixed;
@@ -7296,18 +7294,16 @@ a.th {
 }
 /* line 84, ../sass/app.scss */
 #demo1 .swapA {
-  opacity: 1;
   position: relative;
   visibility: hidden;
 }
-/* line 90, ../sass/app.scss */
+/* line 89, ../sass/app.scss */
 #demo1 .swapB {
-  opacity: 1;
   position: relative;
   visibility: hidden;
 }
 
-/* line 107, ../sass/app.scss */
+/* line 105, ../sass/app.scss */
 #demo2 {
   top: 65%;
   position: fixed;
@@ -7341,18 +7337,16 @@ a.th {
 }
 /* line 84, ../sass/app.scss */
 #demo2 .swapA {
-  opacity: 1;
   position: relative;
   visibility: hidden;
 }
-/* line 90, ../sass/app.scss */
+/* line 89, ../sass/app.scss */
 #demo2 .swapB {
-  opacity: 1;
   position: relative;
   visibility: hidden;
 }
 
-/* line 112, ../sass/app.scss */
+/* line 110, ../sass/app.scss */
 #swap {
   color: red;
   display: inline;

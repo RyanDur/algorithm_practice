@@ -1,116 +1,125 @@
 function BubbleSort(elem, collection) {
+    if(collection === undefined) {
+        collection =  [9,8,7,6,5,4,3,2,1,0];
+    }
     this.elem = appendUnorderedList(elem, collection);
+    this.collection = collection;
+
+    // add copies to list
+    var ul = this.elem.getElementsByClassName('collection').item(0);
+    appendChildTo(ul, 'li', 'swapA');
+    appendChildTo(ul, 'li', 'swapB');
 };
 
 BubbleSort.prototype.sort = function() {
     var elements = this.elem.getElementsByTagName('li');
-    var i = elements.length-2;
-    var j = i;
-    /*
-     var time1 = setInterval(function() {
-        var j = i;
+    var length = this.collection.length;
+    var queue = [];
 
-        addClass(elements[j], 'search');
-        addClass(elements[j+1], 'search');
-        var time2 = setInterval(function() {
-            if(i < 0 && j > elements.length-2) {
-                clearInterval(time1);
-                clearInterval(time2);
-                return
-            }
-            if(j > elements.length-2) {
-                clearInterval(time2);
-                return;
-            }
-            if(elements[j].innerHTML > elements[j+1].innerHTML) {
-                swap(elements, j, j+1);
-            }
-            j++;
-            removeClass(elements[j-1], 'search');
-            removeClass(elements[j], 'search');
-            if(j+1 < elements.length) {
-                addClass(elements[j+1], 'search');
-            }
+    for(var j = length-2; j >= 0; j--) {
+        for(var i = j; i < length - 1; i++) {
+            if(this.collection[i] > this.collection[i+1]) {
+                var temp = this.collection[i];
+                this.collection[i] = this.collection[i+1];
+                this.collection[i+1] = temp;
 
-        }, 1000);
-        i--;
-    }, 3000);
-    */
+                var item = animateSwap(this.elem, elements[i], elements[i+1]);
+                queue.push(item);
+            } else {
+                var move = animateMove(elements, i);
+                queue.push(move);
+            }
+            if(i+1 >= length-1) {
+                queue.push(function(){
+                    clean(elements);
+                });
+            }
+        }
+    }
 
-    animateSwap(this.elem, elements[0], elements[9]);
+    queue = flatten(queue);
+    executeAsynchronously(queue, 600);
+};
+
+var animateMove = function(elements, index) {
+    var before = elements[index-1];
+    var after = elements[index+1]
+    return [function() {
+        removeClass(before, 'search');
+        addClass(after, 'search');
+    }];
+};
+
+var clean = function(elements) {
+    for(var i = 0; i < elements.length; i++) {
+        removeClass(elements[i], 'search');
+    }
 };
 
 var animateSwap = function(elem, original1, original2) {
-    // add copies to list
-    var ul = elem.getElementsByClassName('collection').item(0);
-    appendChildTo(ul, 'li', 'swapA');
-    appendChildTo(ul, 'li', 'swapB');
 
     // get references to copies
     var copy1 = elem.getElementsByClassName('swapA').item(0);
     var copy2 = elem.getElementsByClassName('swapB').item(0);
 
-    // place values into copies
-    copy1.innerHTML = original1.innerHTML;
-    copy2.innerHTML = original2.innerHTML;
+    copy1.innerHTML = 0;
+    copy2.innerHTML = 0;
 
     // get positions of the originals relative to the copies
     var position1 = parseInt(getPosition(original1).x) - parseInt(getPosition(copy1).x);
     var position2 = parseInt(getPosition(original2).x) - parseInt(getPosition(copy2).x);
 
-    executeAsynchronously(
-    [function() {
-        // travel to swapping positions
-        copy1.style.left = position1 + "px";
-        copy2.style.left = position2 + "px";
-    },
-    function() {
-        // replace orginal with copys that animate
-        addClass(copy1, 'search');
-        addClass(copy2, 'search');
+    return [function() {
+               // travel to swapping positions
+               copy1.style.left = position1 + "px";
+               copy2.style.left = position2 + "px";
 
-        copy1.style.visibility = "visible";
-        copy2.style.visibility = "visible";
+               // place values into copies
+               copyInnerHTML(copy1, original1);
+               copyInnerHTML(copy2, original2);
+           },
+           function() {
+               // replace orginal with copies that animate
+               addClass(copy1, 'search');
+               addClass(copy2, 'search');
 
-        original1.style.visibility = "hidden";
-        original2.style.visibility = "hidden";
-    },
-    function() {
-        // take copies out of the row and swap original
-        swapInnerHTML(original1, original2);
+               copy1.style.visibility = "visible";
+               copy2.style.visibility = "visible";
 
-        copy1.style.top = -original1.offsetHeight + "px";
-        copy2.style.top = original2.offsetHeight + "px";
-    },
-    function() {
-        // swap x positions
-        copy1.style.left = position2 + copy1.offsetWidth + "px";
-        copy2.style.left = position1 - copy2.offsetWidth + "px";
-    },
-    function() {
-        // place copies back into the row
-        copy1.style.top = parseInt(copy1.style.top) + original1.offsetHeight + "px";
-        copy2.style.top = parseInt(copy2.style.top) + -original2.offsetHeight + "px";
-    },
-    function() {
-        // remove copies and reveal original with swapped values
-        copy1.style.visibility = "hidden";
-        copy2.style.visibility = "hidden";
+               original1.style.visibility = "hidden";
+               original2.style.visibility = "hidden";
+           },
+           function() {
+               // take copies out of the row and swap original
+               swapInnerHTML(original1, original2);
+               addClass(original2, 'search');
+               removeClass(original1, 'search');
 
-        original1.style.visibility = "visible";
-        original2.style.visibility = "visible";
+               copy1.style.top = -original1.offsetHeight + "px";
+               copy2.style.top = original2.offsetHeight + "px";
+           },
+           function() {
+               // swap x positions
+               copy1.style.left = position2 + copy1.offsetWidth + "px";
+               copy2.style.left = position1 - copy2.offsetWidth + "px";
+           },
+           function() {
+               // place copies back into the row
+               copy1.style.top = 0;
+               copy2.style.top = 0;
+           },
+           function() {
+               // remove copies and reveal original with swapped values
 
-        removeClass(copy1, 'search');
-        removeClass(copy2, 'search');
-    }], 1000);
+               copy1.style.visibility = "hidden";
+               copy2.style.visibility = "hidden";
 
+               original1.style.visibility = "visible";
+               original2.style.visibility = "visible";
+
+               removeClass(copy1, 'search');
+               removeClass(copy2, 'search');
+           }];
 };
-
-function executeAsynchronously(functions, timeout) {
-  for(var i = 0; i < functions.length; i++) {
-      setTimeout(functions[i], i*timeout);
-    }
-}
-
 
 module.exports = BubbleSort;

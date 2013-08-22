@@ -19,7 +19,7 @@ document.onreadystatechange = function() {
     setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
 
     var demo2 = document.getElementById('demo2');
-    var bsort = new BubbleSort(demo2, [9,8,7,6,5,4,3,2,1,0]);
+    var bsort = new BubbleSort(demo2, shuffle([4,5,3,6,2,7,1,8,9,0]));
     bsort.sort();
   }
 };

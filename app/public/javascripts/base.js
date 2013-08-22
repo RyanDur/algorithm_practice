@@ -173,72 +173,74 @@ BubbleSort.prototype.sort = function() {
     }, 3000);
     */
 
-    swap(this.elem, elements[7], elements[8]);
+    animateSwap(this.elem, elements[0], elements[9]);
 };
 
-var swap = function(elem, a, b) {
-    appendChildTo(elem.getElementsByClassName('collection').item(0), 'li', 'swapA');
-    appendChildTo(elem.getElementsByClassName('collection').item(0), 'li', 'swapB');
+var animateSwap = function(elem, original1, original2) {
+    // add copies to list
+    var ul = elem.getElementsByClassName('collection').item(0);
+    appendChildTo(ul, 'li', 'swapA');
+    appendChildTo(ul, 'li', 'swapB');
 
-    var i = elem.getElementsByClassName('swapA').item(0);
-    var j = elem.getElementsByClassName('swapB').item(0);
-    i.innerHTML = a.innerHTML;
-    j.innerHTML = b.innerHTML;
-    var pA = parseInt(getPosition(a).x);
-    var pB = parseInt(getPosition(b).x);
-    var pI = pA - parseInt(getPosition(i).x);
-    var pJ = pB - parseInt(getPosition(j).x);
+    // get references to copies
+    var copy1 = elem.getElementsByClassName('swapA').item(0);
+    var copy2 = elem.getElementsByClassName('swapB').item(0);
+
+    // place values into copies
+    copy1.innerHTML = original1.innerHTML;
+    copy2.innerHTML = original2.innerHTML;
+
+    // get positions of the originals relative to the copies
+    var position1 = parseInt(getPosition(original1).x) - parseInt(getPosition(copy1).x);
+    var position2 = parseInt(getPosition(original2).x) - parseInt(getPosition(copy2).x);
 
     executeAsynchronously(
     [function() {
         // travel to swapping positions
-        i.style.left = pI + "px";
-        j.style.left = pJ + 1 + "px";
+        copy1.style.left = position1 + "px";
+        copy2.style.left = position2 + "px";
     },
     function() {
         // replace orginal with copys that animate
-        addClass(i, 'search');
-        addClass(j, 'search');
-        i.style.visibility = "visible";
-        j.style.visibility = "visible";
-        a.style.visibility = "hidden";
-        b.style.visibility = "hidden";
+        addClass(copy1, 'search');
+        addClass(copy2, 'search');
+
+        copy1.style.visibility = "visible";
+        copy2.style.visibility = "visible";
+
+        original1.style.visibility = "hidden";
+        original2.style.visibility = "hidden";
     },
     function() {
-        // take copies out of the row
-        var temp = a.innerHTML;
-        a.innerHTML = b.innerHTML;
-        b.innerHTML = temp;
-        i.style.top = -a.offsetHeight + "px";
-        j.style.top = b.offsetHeight-1 + "px";
+        // take copies out of the row and swap original
+        swapInnerHTML(original1, original2);
+
+        copy1.style.top = -original1.offsetHeight + "px";
+        copy2.style.top = original2.offsetHeight + "px";
     },
     function() {
         // swap x positions
-        i.style.left = pJ + 1 + i.offsetWidth + "px";
-        j.style.left = pI - j.offsetWidth + "px";
+        copy1.style.left = position2 + copy1.offsetWidth + "px";
+        copy2.style.left = position1 - copy2.offsetWidth + "px";
     },
     function() {
         // place copies back into the row
-        i.style.top = parseInt(i.style.top) + a.offsetHeight + "px";
-        j.style.top = parseInt(j.style.top) + -b.offsetHeight+1 + "px";
+        copy1.style.top = parseInt(copy1.style.top) + original1.offsetHeight + "px";
+        copy2.style.top = parseInt(copy2.style.top) + -original2.offsetHeight + "px";
     },
     function() {
         // remove copies and reveal original with swapped values
-        i.style.visibility = "hidden";
-        j.style.visibility = "hidden";
-        a.style.visibility = "visible";
-        b.style.visibility = "visible";
-        removeClass(i, 'search');
-        removeClass(j, 'search');
-    }
-    ], 800);
+        copy1.style.visibility = "hidden";
+        copy2.style.visibility = "hidden";
+
+        original1.style.visibility = "visible";
+        original2.style.visibility = "visible";
+
+        removeClass(copy1, 'search');
+        removeClass(copy2, 'search');
+    }], 1000);
 
 };
-
-var animate = function(func1, callback) {
-    func1();
-    callback();
-}
 
 function executeAsynchronously(functions, timeout) {
   for(var i = 0; i < functions.length; i++) {

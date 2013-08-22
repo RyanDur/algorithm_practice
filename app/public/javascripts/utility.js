@@ -45,7 +45,7 @@ var appendUnorderedList = function(elem, collection) {
   return elem;
 };
 
-function getPosition(element) {
+var getPosition = function(element) {
   var xPosition = 0;
   var yPosition = 0;
 
@@ -56,3 +56,9 @@ function getPosition(element) {
   }
   return { x: xPosition, y: yPosition  };
 };
+
+var swapInnerHTML = function(a, b) {
+  var temp = a.innerHTML;
+  a.innerHTML = b.innerHTML;
+  b.innerHTML = temp;
+}

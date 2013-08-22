@@ -7217,7 +7217,7 @@ a.th {
   max-width: 800px;
 }
 
-/* line 85, ../sass/app.scss */
+/* line 97, ../sass/app.scss */
 #demo0 {
   top: 35%;
   position: fixed;
@@ -7249,8 +7249,20 @@ a.th {
 #demo0 .ignore {
   background: gray;
 }
-
+/* line 84, ../sass/app.scss */
+#demo0 .swapA {
+  opacity: 1;
+  position: relative;
+  visibility: hidden;
+}
 /* line 90, ../sass/app.scss */
+#demo0 .swapB {
+  opacity: 1;
+  position: relative;
+  visibility: hidden;
+}
+
+/* line 102, ../sass/app.scss */
 #demo1 {
   top: 50%;
   position: fixed;
@@ -7281,4 +7293,68 @@ a.th {
 /* line 80, ../sass/app.scss */
 #demo1 .ignore {
   background: gray;
+}
+/* line 84, ../sass/app.scss */
+#demo1 .swapA {
+  opacity: 1;
+  position: relative;
+  visibility: hidden;
+}
+/* line 90, ../sass/app.scss */
+#demo1 .swapB {
+  opacity: 1;
+  position: relative;
+  visibility: hidden;
+}
+
+/* line 107, ../sass/app.scss */
+#demo2 {
+  top: 65%;
+  position: fixed;
+  left: 50%;
+  margin: -50px 0 0 -300px;
+}
+/* line 62, ../sass/app.scss */
+#demo2 li {
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+  opacity: 0.5;
+  display: inline;
+  padding: .2em 1em;
+  border: 1px solid black;
+}
+/* line 70, ../sass/app.scss */
+#demo2 .found {
+  color: red;
+}
+/* line 74, ../sass/app.scss */
+#demo2 .search {
+  opacity: 1;
+  border-top: 4px solid black;
+  border-bottom: 4px solid black;
+}
+/* line 80, ../sass/app.scss */
+#demo2 .ignore {
+  background: gray;
+}
+/* line 84, ../sass/app.scss */
+#demo2 .swapA {
+  opacity: 1;
+  position: relative;
+  visibility: hidden;
+}
+/* line 90, ../sass/app.scss */
+#demo2 .swapB {
+  opacity: 1;
+  position: relative;
+  visibility: hidden;
+}
+
+/* line 112, ../sass/app.scss */
+#swap {
+  color: red;
+  display: inline;
+  top: 90%;
 }

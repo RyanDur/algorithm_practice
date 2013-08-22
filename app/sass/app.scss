@@ -80,6 +80,18 @@
   .ignore {
     background: gray;
   }
+
+  .swapA {
+    opacity: 1;
+    position: relative;
+    visibility: hidden;
+  }
+
+  .swapB {
+    opacity: 1;
+    position: relative;
+    visibility: hidden;
+  }
 }
 
 #demo0 {
@@ -90,4 +102,15 @@
 #demo1 {
   top: 50%;
   @include demo;
+}
+
+#demo2 {
+  top: 65%;
+  @include demo;
+}
+
+#swap {
+  color: red;
+  display: inline;
+  top: 90%;
 }

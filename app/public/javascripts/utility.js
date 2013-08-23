@@ -63,10 +63,10 @@ var swapInnerHTML = function(a, b) {
   b.innerHTML = temp;
 };
 
-var swap = function(a, b) {
-  var temp = a;
-  a = b;
-  b = temp;
+var swap = function(collection, a, b) {
+  var temp = collection[a];
+  collection[a] = collection[b];
+  collection[b] = temp;
 };
 
 var flatten = function(array) {
@@ -90,7 +90,14 @@ var executeAsynchronously = function(functions, timeout) {
   }
 };
 
-var shuffle = function(o) {
-  for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-  return o;
+var shuffleInnerHTML = function(o, length) {
+  for(var j, x, i = length; i; j = parseInt(Math.random() * i), x = o[--i].innerHTML, o[i].innerHTML = o[j].innerHTML, o[j].innerHTML = x);
 };
+
+var resetCollection = function(elements) {
+  var collection = [];
+  for(var i = 0; i < elements.length; i++) {
+    collection.push(elements[i].innerHTML);
+  }
+  return collection;
+}

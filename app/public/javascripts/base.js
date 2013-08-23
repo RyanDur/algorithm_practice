@@ -20,8 +20,9 @@ document.onreadystatechange = function() {
     setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
 
     var demo2 = document.getElementById('demo2');
-    var bsort = new BubbleSort(demo2, shuffle([4,5,3,6,2,7,1,8,9,0]));
+    var bsort = new BubbleSort(demo2);
     bsort.sort();
+    setInterval(function() {bsort.sort();}, 160000);
   }
 };
 
@@ -135,29 +136,41 @@ module.exports = LinearSearch;
 
 },{}],4:[function(require,module,exports){
 function BubbleSort(elem, collection) {
+    this.demo = false;
+
     if(collection === undefined) {
+        this.demo = true;
         collection =  [9,8,7,6,5,4,3,2,1,0];
     }
-    this.elem = appendUnorderedList(elem, collection);
-    this.collection = collection;
 
-    // add copies to list
+    this.elem = appendUnorderedList(elem, collection);
+    this.elements = this.elem.getElementsByTagName('li');
+    this.collection = collection;
+    this.length = collection.length;
+
     var ul = this.elem.getElementsByClassName('collection').item(0);
     appendChildTo(ul, 'li', 'swapA');
     appendChildTo(ul, 'li', 'swapB');
+
+    this.copy1 = elem.getElementsByClassName('swapA').item(0);
+    this.copy2 = elem.getElementsByClassName('swapB').item(0);
+    this.copy1OriginalPosition = getPosition(this.copy1);
+    this.copy2OriginalPosition = getPosition(this.copy2);
 };
 
 BubbleSort.prototype.sort = function() {
-    var elements = this.elem.getElementsByTagName('li');
-    var length = this.collection.length;
     var queue = [];
+    var elements = this.elements;
 
-    for(var j = length-2; j >= 0; j--) {
-        for(var i = j; i < length - 1; i++) {
+    if(this.demo) {
+        shuffleInnerHTML(elements, this.length);
+        this.collection = resetCollection(elements);
+    }
+
+    for(var j = this.length-2; j >= 0; j--) {
+        for(var i = j; i < this.length - 1; i++) {
             if(this.collection[i] > this.collection[i+1]) {
-                var temp = this.collection[i];
-                this.collection[i] = this.collection[i+1];
-                this.collection[i+1] = temp;
+                swap(this.collection, i, i+1);
 
                 var item = animateSwap(this.elem, elements[i], elements[i+1]);
                 queue.push(item);
@@ -165,25 +178,38 @@ BubbleSort.prototype.sort = function() {
                 var move = animateMove(elements, i);
                 queue.push(move);
             }
-            if(i+1 >= length-1) {
+            if(i+1 >= this.length-1) {
                 queue.push(function(){
                     clean(elements);
                 });
             }
         }
     }
+    queue.push(resetCopy('swapA'));
+    queue.push(resetCopy('swapB'));
 
     queue = flatten(queue);
     executeAsynchronously(queue, 600);
 };
 
+var resetCopy = function(copy) {
+    return [function() {
+        document.getElementsByClassName(copy).item(0).style.left = 0
+    }];
+};
+
 var animateMove = function(elements, index) {
     var before = elements[index-1];
+    var now = elements[index];
     var after = elements[index+1]
-    return [function() {
-        removeClass(before, 'search');
-        addClass(after, 'search');
-    }];
+        return [function() {
+            addClass(now, 'search');
+            addClass(after, 'search');
+        },
+        function() {
+            removeClass(before, 'search');
+            addClass(after, 'search');
+        }];
 };
 
 var clean = function(elements) {
@@ -256,6 +282,12 @@ var animateSwap = function(elem, original1, original2) {
                removeClass(copy1, 'search');
                removeClass(copy2, 'search');
            }];
+};
+
+var executeAsynchronously = function(functions, timeout) {
+    for(var i = 0; i < functions.length; i++) {
+        var time = setTimeout(functions[i], i*timeout);
+    }
 };
 
 module.exports = BubbleSort;

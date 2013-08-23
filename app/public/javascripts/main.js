@@ -19,7 +19,8 @@ document.onreadystatechange = function() {
     setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
 
     var demo2 = document.getElementById('demo2');
-    var bsort = new BubbleSort(demo2, shuffle([4,5,3,6,2,7,1,8,9,0]));
+    var bsort = new BubbleSort(demo2);
     bsort.sort();
+    setInterval(function() {bsort.sort();}, 160000);
   }
 };

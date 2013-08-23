@@ -33,7 +33,7 @@ var appendChildTo = function(elem, tag, className) {
   elem.appendChild(node);
 };
 
-var appendUnorderedList = function(elem, collection) {
+var appendUnorderedList = function(elem, collection, className) {
   appendChildTo(elem, 'ul', 'collection');
   var ul = elem.getElementsByClassName('collection').item(0);
 
@@ -44,6 +44,11 @@ var appendUnorderedList = function(elem, collection) {
 
   return elem;
 };
+var addClassToCollection = function(elements, className, length) {
+  for(var i = 0; i < length; i++) {
+    addClass(elements[i], className);
+  }
+}
 
 var getPosition = function(element) {
   var xPosition = 0;
@@ -82,12 +87,6 @@ var flatten = function(array) {
 
 var copyInnerHTML = function(copy, original) {
   copy.innerHTML = original.innerHTML;
-};
-
-var executeAsynchronously = function(functions, timeout) {
-  for(var i = 0; i < functions.length; i++) {
-    var time = setTimeout(functions[i], i*timeout);
-  }
 };
 
 var shuffleInnerHTML = function(o, length) {

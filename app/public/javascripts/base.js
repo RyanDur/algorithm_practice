@@ -163,10 +163,12 @@ BubbleSort.prototype.sort = function() {
         this.collection = resetCollection(elements);
     }
 
+    queue.push(removeIgnore(elements[this.length-1]));
+
     for(var j = this.length-2; j >= 0; j--) {
         for(var i = j; i < this.length - 1; i++) {
             if(i === j ) {
-                queue.push(removeIgnore([elements[i+1], elements[i]]));
+                queue.push(removeIgnore(elements[i]));
             }
             if(this.collection[i] > this.collection[i+1]) {
                 swap(this.collection, i, i+1);
@@ -184,7 +186,7 @@ BubbleSort.prototype.sort = function() {
 
     queue.push([swapA.reset, swapB.reset]);
     queue = flatten(queue);
-    executeAsynchronously(queue, 500);
+    executeAsynchronously(queue, 550);
 };
 
 var moveSteps = function(elements, index) {
@@ -194,21 +196,18 @@ var moveSteps = function(elements, index) {
         var before = elements[index-1];
     }
 
-    return [function() {
-        addSearch([now,after]);
-    },
-    function() {
+    return function() {
+        addSearch(now, after);
         if(before) {
-            removeSearch([before]);
+            removeSearch(before);
         }
-        addSearch([after]);
-    }];
+    };
 };
 
 var clean = function(elements, length) {
     return function() {
         for(var i = 0; i < length; i++) {
-            removeClass(elements[i], 'search');
+            removeSearch(elements[i]);
         }
     };
 };
@@ -217,9 +216,10 @@ var swapSteps = function(swapA, swapB) {
 
     return [function() {
                // travel to swapping positions
-               addSearch([swapA.original, swapB.original, swapA.elem, swapB.elem]);
-               swapA.moveIntoPosition();
-               swapB.moveIntoPosition();
+               addSearch(swapA.original, swapB.original, swapA.elem, swapB.elem);
+               forEach([swapA, swapB], function(swap) {
+                swap.moveIntoPosition();
+               })
 
                // place values into swaps
                forEach([swapA, swapB], function(swap) {
@@ -228,11 +228,11 @@ var swapSteps = function(swapA, swapB) {
            },
            function() {
                // replace orginal with swaps that animate
-               makeVisible([swapA.elem, swapB.elem]);
-               hide([swapA.original, swapB.original]);
+               hide(swapA.original, swapB.original);
+               makeVisible(swapA.elem, swapB.elem);
            },
            function() {
-               // raise swapos out of the line
+               // raise swaps out of the line
                swapA.moveUp();
                swapB.moveDown();
            },
@@ -244,8 +244,8 @@ var swapSteps = function(swapA, swapB) {
            },
            function() {
                // take copies out of the row and swap original
-               addSearch([swapB.original]);
-               removeSearch([swapA.original]);
+               addSearch(swapB.original);
+               removeSearch(swapA.original);
 
                // place copies back into the row
                forEach([swapA, swapB], function(swap) {
@@ -254,9 +254,9 @@ var swapSteps = function(swapA, swapB) {
            },
            function() {
                // remove copies and reveal original with swapped values
-               hide([swapA.elem, swapB.elem]);
-               removeSearch([swapA.elem, swapB.elem]);
-               makeVisible([swapA.original, swapB.original]);
+               removeSearch(swapA.elem, swapB.elem);
+               hide(swapA.elem, swapB.elem);
+               makeVisible(swapA.original, swapB.original);
            }];
 };
 
@@ -301,44 +301,37 @@ var executeAsynchronously = function(functions, timeout) {
     }
 };
 
-var addSearch = function(array) {
-    forEach(array, function(elem) {
+var addSearch = function() {
+    forEach(arguments, function(elem) {
         addClass(elem, 'search');
     });
 };
 
-var hide = function(array) {
-    forEach(array, function(elem) {
+var hide = function() {
+    forEach(arguments, function(elem) {
         elem.style.visibility = "hidden";
     });
 };
 
-var makeVisible = function(array) {
-    forEach(array, function(elem) {
+var makeVisible = function() {
+    forEach(arguments, function(elem) {
         elem.style.visibility = "visible";
     });
 };
 
-var removeSearch = function(array) {
-    forEach(array, function(elem) {
+var removeSearch = function() {
+    forEach(arguments, function(elem) {
         removeClass(elem, 'search');
     });
 };
 
-var removeIgnore = function(array) {
+var removeIgnore = function() {
+    var array = arguments;
     return function() {
         forEach(array, function(elem) {
             removeClass(elem, 'ignore');
         });
     };
-};
-
-var resetSwap = function(elem, array) {
-    return [function() {
-        forEach(array, function(className) {
-            elem.getElementsByClassName(className).item(0).style.left = 0
-        });
-    }];
 };
 
 module.exports = BubbleSort;

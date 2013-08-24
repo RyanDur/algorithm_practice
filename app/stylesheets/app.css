@@ -7219,7 +7219,7 @@ a.th {
 
 /* line 95, ../sass/app.scss */
 #demo0 {
-  top: 35%;
+  top: 20%;
   position: fixed;
   left: 50%;
   margin: -50px 0 0 -300px;
@@ -7262,7 +7262,7 @@ a.th {
 
 /* line 100, ../sass/app.scss */
 #demo1 {
-  top: 50%;
+  top: 35%;
   position: fixed;
   left: 50%;
   margin: -50px 0 0 -300px;
@@ -7305,7 +7305,7 @@ a.th {
 
 /* line 105, ../sass/app.scss */
 #demo2 {
-  top: 65%;
+  top: 50%;
   position: fixed;
   left: 50%;
   margin: -50px 0 0 -300px;
@@ -7347,6 +7347,49 @@ a.th {
 }
 
 /* line 110, ../sass/app.scss */
+#demo3 {
+  top: 65%;
+  position: fixed;
+  left: 50%;
+  margin: -50px 0 0 -300px;
+}
+/* line 62, ../sass/app.scss */
+#demo3 li {
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+  opacity: 0.5;
+  display: inline;
+  padding: .2em 1em;
+  border: 1px solid black;
+}
+/* line 70, ../sass/app.scss */
+#demo3 .found {
+  color: red;
+}
+/* line 74, ../sass/app.scss */
+#demo3 .search {
+  opacity: 1;
+  border-top: 4px solid black;
+  border-bottom: 4px solid black;
+}
+/* line 80, ../sass/app.scss */
+#demo3 .ignore {
+  background: gray;
+}
+/* line 84, ../sass/app.scss */
+#demo3 .swapA {
+  position: relative;
+  visibility: hidden;
+}
+/* line 89, ../sass/app.scss */
+#demo3 .swapB {
+  position: relative;
+  visibility: hidden;
+}
+
+/* line 115, ../sass/app.scss */
 #swap {
   color: red;
   display: inline;

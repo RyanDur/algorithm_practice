@@ -93,16 +93,21 @@
 }
 
 #demo0 {
-  top: 35%;
+  top: 20%;
   @include demo;
 }
 
 #demo1 {
-  top: 50%;
+  top: 35%;
   @include demo;
 }
 
 #demo2 {
+  top: 50%;
+  @include demo;
+}
+
+#demo3 {
   top: 65%;
   @include demo;
 }

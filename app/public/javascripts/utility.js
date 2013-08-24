@@ -100,3 +100,50 @@ var resetCollection = function(elements) {
   }
   return collection;
 }
+
+var addSearch = function() {
+    forEach(arguments, function(elem) {
+        addClass(elem, 'search');
+    });
+};
+
+var hide = function() {
+    forEach(arguments, function(elem) {
+        elem.style.visibility = "hidden";
+    });
+};
+
+var makeVisible = function() {
+    forEach(arguments, function(elem) {
+        elem.style.visibility = "visible";
+    });
+};
+
+var removeSearch = function() {
+    forEach(arguments, function(elem) {
+        removeClass(elem, 'search');
+    });
+};
+
+var removeIgnore = function() {
+    var array = arguments;
+    return function() {
+        forEach(array, function(elem) {
+            removeClass(elem, 'ignore');
+        });
+    };
+};
+
+var clean = function(elements, length) {
+    return function() {
+        for(var i = 0; i < length; i++) {
+            removeSearch(elements[i]);
+        }
+    };
+};
+
+var executeAsynchronously = function(functions, timeout) {
+    forEach(functions, function(func, index) {
+        setTimeout(func, index*timeout);
+    });
+};

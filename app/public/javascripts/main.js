@@ -10,17 +10,24 @@ document.onreadystatechange = function() {
   if (document.readyState === 'complete') {
     var demo0 = document.getElementById('demo0');
     var ls = new LinearSearch(demo0);
-    ls.search(Math.floor(Math.random() * 10));
-    setInterval(function() {ls.search(Math.floor(Math.random() * 11));}, time);
-
     var demo1 = document.getElementById('demo1');
     var bs = new BinarySearch(demo1);
-    bs.search(Math.floor(Math.random() * 10));
-    setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
-
     var demo2 = document.getElementById('demo2');
     var bsort = new BubbleSort(demo2);
+
+    ls.search(Math.floor(Math.random() * 10));
+    setInterval(function() {
+      ls.search(Math.floor(Math.random() * 11));
+    }, time);
+
+    bs.search(Math.floor(Math.random() * 10));
+    setInterval(function() {
+      bs.search(Math.floor(Math.random() * 11));
+    }, time);
+
     bsort.sort();
-    setInterval(function() {bsort.sort();}, 160000);
+    setInterval(function() {
+      bsort.sort();
+    }, 150000);
   }
 };

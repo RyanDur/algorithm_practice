@@ -11,18 +11,25 @@ document.onreadystatechange = function() {
   if (document.readyState === 'complete') {
     var demo0 = document.getElementById('demo0');
     var ls = new LinearSearch(demo0);
-    ls.search(Math.floor(Math.random() * 10));
-    setInterval(function() {ls.search(Math.floor(Math.random() * 11));}, time);
-
     var demo1 = document.getElementById('demo1');
     var bs = new BinarySearch(demo1);
-    bs.search(Math.floor(Math.random() * 10));
-    setInterval(function() {bs.search(Math.floor(Math.random() * 11));}, time);
-
     var demo2 = document.getElementById('demo2');
     var bsort = new BubbleSort(demo2);
+
+    ls.search(Math.floor(Math.random() * 10));
+    setInterval(function() {
+      ls.search(Math.floor(Math.random() * 11));
+    }, time);
+
+    bs.search(Math.floor(Math.random() * 10));
+    setInterval(function() {
+      bs.search(Math.floor(Math.random() * 11));
+    }, time);
+
     bsort.sort();
-    setInterval(function() {bsort.sort();}, 160000);
+    setInterval(function() {
+      bsort.sort();
+    }, 150000);
   }
 };
 
@@ -135,6 +142,8 @@ LinearSearch.prototype.search = function(value) {
 module.exports = LinearSearch;
 
 },{}],4:[function(require,module,exports){
+"use strict";
+
 function BubbleSort(elem, collection) {
     this.demo = false;
 
@@ -186,7 +195,7 @@ BubbleSort.prototype.sort = function() {
 
     queue.push([swapA.reset, swapB.reset]);
     queue = flatten(queue);
-    executeAsynchronously(queue, 550);
+    executeAsynchronously(queue, 500);
 };
 
 var moveSteps = function(elements, index) {
@@ -204,56 +213,40 @@ var moveSteps = function(elements, index) {
     };
 };
 
-var clean = function(elements, length) {
-    return function() {
-        for(var i = 0; i < length; i++) {
-            removeSearch(elements[i]);
-        }
-    };
-};
-
 var swapSteps = function(swapA, swapB) {
 
-    return [function() {
-               // travel to swapping positions
+    return [function stepOne() {
                addSearch(swapA.original, swapB.original, swapA.elem, swapB.elem);
                forEach([swapA, swapB], function(swap) {
                 swap.moveIntoPosition();
                })
 
-               // place values into swaps
                forEach([swapA, swapB], function(swap) {
                 swap.copyInnerHTML();
                });
            },
-           function() {
-               // replace orginal with swaps that animate
+           function stepTwo() {
                hide(swapA.original, swapB.original);
                makeVisible(swapA.elem, swapB.elem);
            },
-           function() {
-               // raise swaps out of the line
+           function stepThree() {
                swapA.moveUp();
                swapB.moveDown();
            },
-           function() {
-               // swap x positions
+           function stepFour() {
                swapInnerHTML(swapA.original, swapB.original);
                swapA.moveRight();
                swapB.moveLeft();
            },
-           function() {
-               // take copies out of the row and swap original
+           function stepFive() {
                addSearch(swapB.original);
                removeSearch(swapA.original);
 
-               // place copies back into the row
                forEach([swapA, swapB], function(swap) {
                 swap.putBackInLine();
                });
            },
-           function() {
-               // remove copies and reveal original with swapped values
+           function stepSix() {
                removeSearch(swapA.elem, swapB.elem);
                hide(swapA.elem, swapB.elem);
                makeVisible(swapA.original, swapB.original);
@@ -296,9 +289,9 @@ var swapElement = function(element, className, original) {
 };
 
 var executeAsynchronously = function(functions, timeout) {
-    for(var i = 0; i < functions.length; i++) {
-        var time = setTimeout(functions[i], i*timeout);
-    }
+    forEach(functions, function(func, index) {
+        setTimeout(func, index*timeout);
+    });
 };
 
 var addSearch = function() {
@@ -331,6 +324,14 @@ var removeIgnore = function() {
         forEach(array, function(elem) {
             removeClass(elem, 'ignore');
         });
+    };
+};
+
+var clean = function(elements, length) {
+    return function() {
+        for(var i = 0; i < length; i++) {
+            removeSearch(elements[i]);
+        }
     };
 };
 

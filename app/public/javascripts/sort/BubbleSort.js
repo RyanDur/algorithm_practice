@@ -6,7 +6,7 @@ function BubbleSort(elem, collection) {
 
     if(collection === undefined) {
         this.demo = true;
-        collection =  [9,8,7,6,5,4,3,2,1,0];
+        collection = [9,8,7,6,5,4,3,2,1,0];
     }
 
     this.elem = appendUnorderedList(elem, collection);
@@ -33,7 +33,7 @@ BubbleSort.prototype.sort = function() {
 
     for(var j = this.length-2; j >= 0; j--) {
         for(var i = j; i < this.length - 1; i++) {
-            if(i === j ) {
+            if(i === j) {
                 queue.push(removeIgnore(elements[i]));
             }
             if(this.collection[i] > this.collection[i+1]) {

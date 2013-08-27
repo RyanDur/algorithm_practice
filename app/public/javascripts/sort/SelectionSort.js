@@ -2,7 +2,7 @@
 var swapper = require('../SwapElement');
 
 function SelectionSort(elem, collection) {
-  this.collection = collection;
+  this.demo = false;
 
   if(collection === undefined) {
     this.demo = true;
@@ -10,6 +10,8 @@ function SelectionSort(elem, collection) {
   }
 
   this.elem = appendUnorderedList(elem, collection);
+  this.elements = this.elem.getElementsByTagName('li');
+  this.collection = collection;
 
   var ul = this.elem.getElementsByClassName('collection').item(0);
   forEach(['swapA', 'swapB'], function(swap) {
@@ -20,20 +22,29 @@ function SelectionSort(elem, collection) {
 SelectionSort.prototype.sort = function() {
   var queue = [], elements = this.elements, swapA, swapB;
 
-  for(var i = 0; i < collection.length-1; i++) {
+  for(var i = 0; i < this.collection.length-1; i++) {
     var min = i;
+    swapA = swapper.element(this.elem, 'swapA', elements[i]);
+    queue.push(swapper.addSearch(elements[i]));
 
-    for(var j = i+1; j < container.length-1; j++) {
-      if(collection[j] < collection[min]) {
+    for(var j = i+1; j < this.collection.length; j++) {
+      if(this.collection[j] < this.collection[min]) {
         min = j;
+        queue.push(swapper.move(elements, j));
       }
     }
 
     if(min != i) {
-      swap(collection, i, min);
+      swap(this.collection, i, min);
+      queue.push(swapper.addSearch(elements[min]));
+      swapB = swapper.element(this.elem, 'swapB', elements[min]);
+      queue.push(swapper.steps(swapA, swapB));
     }
   }
-  return collection;
+
+  queue.push([swapA.reset, swapB.reset]);
+  queue = flatten(queue);
+  executeAsynchronously(queue, 500);
 };
 
 module.exports = SelectionSort;

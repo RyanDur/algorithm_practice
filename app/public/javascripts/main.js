@@ -18,20 +18,25 @@ document.onreadystatechange = function() {
     var bs = new BinarySearch(demo1);
     var bsort = new BubbleSort(demo2);
     var ss = new SelectionSort(demo3);
-
+/*
     ls.search(Math.floor(Math.random() * 10));
     setInterval(function() {
       ls.search(Math.floor(Math.random() * 11));
     }, time);
-
-    bs.search(Math.floor(Math.random() * 10));
+*/
+    var queue = bs.search(Math.floor(Math.random() * 10));
+    executeAsynchronously(queue, 1000);
     setInterval(function() {
-      bs.search(Math.floor(Math.random() * 11));
+      bs.claenElements();
+      executeAsynchronously(bs.search(Math.floor(Math.random() * 11)), 1000);
     }, time);
-
+/*
     bsort.sort();
     setInterval(function() {
       bsort.sort();
     }, 150000);
+
+    ss.sort();
+  */
   }
 };

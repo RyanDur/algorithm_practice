@@ -10,92 +10,48 @@ describe('BinarySearch', function() {
   describe('init', function() {
     it('should insert the elements into the dom', function() {
       expect($('.collection > li')).toHaveLength(searchList.length);
+
+      forEach($('.collection > li'), function(li, index) {
+        expect(parseInt(li.innerHTML)).toEqual(index);
+      });
     });
   });
 
   describe('search', function() {
-    beforeEach(function() {
+    it('should return a queue of functions', function() {
+      var queue = bs.search(8);
+
+      expect(queue.length).toBeGreaterThan(0);
+      forEach(queue, function(elem) {
+        expect(typeof elem).toEqual("function");
+      });
+    });
+
+    it('should return an instruction set that finds the element', function() {
       jasmine.Clock.useMock();
-    });
+      var queue = bs.search(8);
 
-    it('should repeatedly cut the list in half ignoring the half the value does not exist', function() {
-      bs.search(8);
-      for(var i = 0; i < 10; i++) {
-        expect($('.index' + i)).not.toHaveClass('found');
-        expect($('.index' + i)).not.toHaveClass('search');
-        expect($('.index' + i)).not.toHaveClass('ignore');
-      }
-
-      jasmine.Clock.tick(2000);
-      for(var i = 0; i < 10; i++) {
-        expect($('.index' + i)).not.toHaveClass('found');
-      }
-      expect($('.index0')).not.toHaveClass('ignore');
-      expect($('.index1')).not.toHaveClass('ignore');
-      expect($('.index2')).not.toHaveClass('ignore');
-      expect($('.index3')).not.toHaveClass('ignore');
-
-      expect($('.index4')).toHaveClass('search');
-
-      expect($('.index5')).not.toHaveClass('ignore');
-      expect($('.index6')).not.toHaveClass('ignore');
-      expect($('.index7')).not.toHaveClass('ignore');
-      expect($('.index8')).not.toHaveClass('ignore');
-
-      jasmine.Clock.tick(2000);
-      for(var i = 0; i < 10; i++) {
-        expect($('.index' + i)).not.toHaveClass('found');
-      }
-      expect($('.index0')).toHaveClass('ignore');
-      expect($('.index1')).toHaveClass('ignore');
-      expect($('.index2')).toHaveClass('ignore');
-      expect($('.index3')).toHaveClass('ignore');
-
-      expect($('.index4')).toHaveClass('ignore');
-      expect($('.index4')).not.toHaveClass('search');
-
-      expect($('.index5')).not.toHaveClass('ignore');
-      expect($('.index6')).not.toHaveClass('ignore');
-
-      expect($('.index7')).toHaveClass('search');
-      expect($('.index7')).not.toHaveClass('ignore');
-
-      expect($('.index8')).not.toHaveClass('ignore');
-      expect($('.index9')).not.toHaveClass('ignore');
-
-      jasmine.Clock.tick(2000);
-      expect($('.index0')).toHaveClass('ignore');
-      expect($('.index1')).toHaveClass('ignore');
-      expect($('.index2')).toHaveClass('ignore');
-      expect($('.index3')).toHaveClass('ignore');
-      expect($('.index4')).toHaveClass('ignore');
-      expect($('.index5')).toHaveClass('ignore');
-      expect($('.index6')).toHaveClass('ignore');
-
-      expect($('.index7')).toHaveClass('ignore');
-      expect($('.index7')).not.toHaveClass('search');
-
-      expect($('.index8')).not.toHaveClass('ignore');
-      expect($('.index8')).toHaveClass('search');
+      executeAsynchronously(queue, 1);
+      jasmine.Clock.tick(100);
+      expect(parseInt($('.index8').html())).toEqual(8);
       expect($('.index8')).toHaveClass('found');
-
-      expect($('.index9')).not.toHaveClass('ignore');
     });
+  });
 
-    it('should mark the search target as found', function() {
-      bs.search(4);
-      jasmine.Clock.tick(8000);
-      expect($('.index4')).toHaveClass('found');
+  describe('cleanElements', function() {
+    it('should reset the elements if called multiple times', function() {
+      jasmine.Clock.useMock();
 
-      bs.search(6);
-      jasmine.Clock.tick(8000);
-      expect($('.index6')).toHaveClass('found');
-      expect($('.index6')).not.toHaveClass('ignore');
+      var queue = bs.search(5);
+      executeAsynchronously(queue, 1);
+      jasmine.Clock.tick(1000);
 
-      bs.search(9);
-      jasmine.Clock.tick(8000);
-      expect($('.index9')).toHaveClass('found');
-      expect($('.index9')).not.toHaveClass('ignore');
+      bs.claenElements();
+      forEach($('.collection > li'), function(li) {
+        expect(li).not.toHaveClass('found');
+        expect(li).not.toHaveClass('search');
+        expect(li).not.toHaveClass('ignore');
+      });
     });
   });
 });

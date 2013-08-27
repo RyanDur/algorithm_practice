@@ -5,13 +5,12 @@ var Swapper = {
     element: function(element, className, original) {
       var elem = element.getElementsByClassName(className).item(0);
       elem.innerHTML = 0;
-      var position = parseInt(getPosition(original).x) - parseInt(getPosition(elem).x);
 
       return {
         elem: elem,
         original: original,
-        moveIntoPosition: function() {
-          elem.style.left = position + "px"; 
+        moveIntoPosition: function(original) {
+          elem.style.left = parseInt(getPosition(original).x) - parseInt(getPosition(elem).x) + "px"; 
         },
         moveUp: function() {
           elem.style.top = -original.offsetHeight + "px";
@@ -19,11 +18,10 @@ var Swapper = {
         moveDown: function() {
           elem.style.top = original.offsetHeight + "px";
         },
-        moveLeft: function() {
-          elem.style.left = position - elem.offsetWidth + "px";
-        },
-        moveRight: function() {
-          elem.style.left = position + elem.offsetWidth + "px";
+        swap: function(otherElem) {
+          var temp = parseInt(elem.style.left) - elem.offsetWidth + "px";
+          elem.style.left = parseInt(otherElem.style.left) + otherElem.offsetWidth + "px";
+          otherElem.style.left = temp;
         },
         putBackInLine: function() {
           elem.style.top = 0;
@@ -39,18 +37,16 @@ var Swapper = {
 
     steps: function(swapA, swapB) {
 
-      return [function stepOne() {
-               addSearch(swapA.original, swapB.original, swapA.elem, swapB.elem);
-               forEach([swapA, swapB], function(swap) {
-                swap.moveIntoPosition();
-               })
+      return [
+            function stepOne() {
+              addSearch(swapA.original, swapB.original, swapA.elem, swapB.elem);
 
               forEach([swapA, swapB], function(swap) {
                 swap.copyInnerHTML();
               });
             },
             function stepTwo() {
-               hide(swapA.original, swapB.original);
+              hide(swapA.original, swapB.original);
               makeVisible(swapA.elem, swapB.elem);
             },
             function stepThree() {
@@ -59,8 +55,7 @@ var Swapper = {
             },
             function stepFour() {
               swapInnerHTML(swapA.original, swapB.original);
-              swapA.moveRight();
-              swapB.moveLeft();
+              swapA.swap(swapB.elem);
             },
             function stepFive() {
               addSearch(swapB.original);
@@ -72,23 +67,35 @@ var Swapper = {
             },
             function stepSix() {
               removeSearch(swapA.elem, swapB.elem);
-               hide(swapA.elem, swapB.elem);
+              hide(swapA.elem, swapB.elem);
               makeVisible(swapA.original, swapB.original);
-            }];
+            }
+      ];
     },
 
     move: function(elements, index) {
       var now = elements[index];
       var after = elements[index+1];
-      if(index-1 > 0) {
-        var before = elements[index-1];
-      }
 
+      return [
+        function() {
+          addSearch(now);
+        },
+        function() {
+          removeSearch(now);
+          addSearch(after);
+        }]
+    },
+
+    addSearch: function(element) {
       return function() {
-        addSearch(now, after);
-        if(before) {
-          removeSearch(before);
-        }
+        addSearch(element);
+      }
+    },
+
+    removeSearch: function(element) {
+      return function() {
+        removeSearch(element);
       }
     }
 };
@@ -116,21 +123,26 @@ document.onreadystatechange = function() {
     var bs = new BinarySearch(demo1);
     var bsort = new BubbleSort(demo2);
     var ss = new SelectionSort(demo3);
-
+/*
     ls.search(Math.floor(Math.random() * 10));
     setInterval(function() {
       ls.search(Math.floor(Math.random() * 11));
     }, time);
-
-    bs.search(Math.floor(Math.random() * 10));
+*/
+    var queue = bs.search(Math.floor(Math.random() * 10));
+    executeAsynchronously(queue, 1000);
     setInterval(function() {
-      bs.search(Math.floor(Math.random() * 11));
+      bs.claenElements();
+      executeAsynchronously(bs.search(Math.floor(Math.random() * 11)), 1000);
     }, time);
-
+/*
     bsort.sort();
     setInterval(function() {
       bsort.sort();
     }, 150000);
+
+    ss.sort();
+  */
   }
 };
 
@@ -138,63 +150,66 @@ document.onreadystatechange = function() {
 "use strict";
 
 function BinarySearch(elem, collection) {
-  var collection = collection;
-  if(collection === undefined) {
-    collection = [0,1,2,3,4,5,6,7,8,9];
-  }
-  this.elem = appendUnorderedList(elem, collection);
+    var collection = collection;
+    if(collection === undefined) {
+        collection = [0,1,2,3,4,5,6,7,8,9];
+    }
+    this.elem = appendUnorderedList(elem, collection);
+    this.elements = this.elem.getElementsByTagName('li');
 };
 
 BinarySearch.prototype.search = function(value) {
-  var min = 0, lastMid, range;
-  var elements = this.elem.getElementsByTagName('li');
-  var max = elements.length-1;
-  clean(elements);
+    var min = 0, max = this.elements.length-1, mid, range, queue = [];
 
-  var t = setInterval(function() {
-    var mid = Math.floor((min + max)/2);
-    if (max < min) {
-      clearInterval(t);
-      return;
-    }
-    if(lastMid) {
-      addClass(elements[lastMid], 'ignore');
-      removeClass(elements[lastMid], 'search');
-    }
-    if(range) {
-      ignore(range, elements);
-    }
+    while(max >= min) {
+        mid = Math.floor((min + max)/2);
+        queue.push(search(this.elements[mid]));
 
-    addClass(elements[mid], 'search');
+        if(value > parseInt(this.elements[mid].innerHTML)) {
+            min = mid+1;
+            queue.push(ignore([0, min], this.elements, this.elements[mid]));
+        } else if(value < parseInt(this.elements[mid].innerHTML)) {
+            max = mid-1;
+            queue.push(ignore([mid, this.elements.length], this.elements, this.elements[mid]));
+        } else {
+            queue.push(found(this.elements[mid]));
+            return queue;
+        }
+    };
 
-    if(value > elements.item(mid).innerHTML) {
-      range = [0,mid];
-      lastMid = mid;
-      min = mid+1;
-    } else if(value < elements.item(mid).innerHTML) {
-      range = [mid+1, elements.length];
-      lastMid = mid;
-      max = mid-1;
-    } else {
-      addClass(elements[mid], 'found');
-      clearInterval(t);
-      return;
+    return queue;
+};
+
+BinarySearch.prototype.claenElements = function() {
+    forEach(this.elements, function(el) {
+        removeClass(el, 'found');
+        removeClass(el, 'search');
+        removeClass(el, 'ignore');
+    });
+};
+
+var search = function(elem) {
+    return function() {
+        addClass(elem, 'search');
     }
-  }, 2000);
+};
+
+var ignore = function(range, elements, elem) {
+    return function() {
+        removeClass(elem, 'search');
+        for(var i = range[0]; i < range[1]; i++) {
+            addClass(elements[i], 'ignore');
+        }
+    }
+};
+
+var found = function(elem) {
+    return function() {
+        addClass(elem, 'found');
+    }
 };
 
 var clean = function(elements) {
-  forEach(elements, function(el) {
-    removeClass(el, 'found');
-    removeClass(el, 'search');
-    removeClass(el, 'ignore');
-  });
-};
-
-var ignore = function(range, elements) {
-  for(var i = range[0]; i < range[1]; i++) {
-    addClass(elements[i], 'ignore');
-  }
 };
 
 module.exports = BinarySearch;
@@ -251,7 +266,7 @@ function BubbleSort(elem, collection) {
 
     if(collection === undefined) {
         this.demo = true;
-        collection =  [9,8,7,6,5,4,3,2,1,0];
+        collection = [9,8,7,6,5,4,3,2,1,0];
     }
 
     this.elem = appendUnorderedList(elem, collection);
@@ -278,7 +293,7 @@ BubbleSort.prototype.sort = function() {
 
     for(var j = this.length-2; j >= 0; j--) {
         for(var i = j; i < this.length - 1; i++) {
-            if(i === j ) {
+            if(i === j) {
                 queue.push(removeIgnore(elements[i]));
             }
             if(this.collection[i] > this.collection[i+1]) {
@@ -307,7 +322,7 @@ module.exports = BubbleSort;
 var swapper = require('../SwapElement');
 
 function SelectionSort(elem, collection) {
-  this.collection = collection;
+  this.demo = false;
 
   if(collection === undefined) {
     this.demo = true;
@@ -315,6 +330,8 @@ function SelectionSort(elem, collection) {
   }
 
   this.elem = appendUnorderedList(elem, collection);
+  this.elements = this.elem.getElementsByTagName('li');
+  this.collection = collection;
 
   var ul = this.elem.getElementsByClassName('collection').item(0);
   forEach(['swapA', 'swapB'], function(swap) {
@@ -323,20 +340,31 @@ function SelectionSort(elem, collection) {
 };
 
 SelectionSort.prototype.sort = function() {
-  for(var i = 0; i < collection.length-1; i++) {
-    var min = i;
+  var queue = [], elements = this.elements, swapA, swapB;
 
-    for(var j = i+1; j < container.length-1; j++) {
-      if(collection[j] < collection[min]) {
+  for(var i = 0; i < this.collection.length-1; i++) {
+    var min = i;
+    swapA = swapper.element(this.elem, 'swapA', elements[i]);
+    queue.push(swapper.addSearch(elements[i]));
+
+    for(var j = i+1; j < this.collection.length; j++) {
+      if(this.collection[j] < this.collection[min]) {
         min = j;
+        queue.push(swapper.move(elements, j));
       }
     }
 
     if(min != i) {
-      swap(collection, i, min);
+      swap(this.collection, i, min);
+      queue.push(swapper.addSearch(elements[min]));
+      swapB = swapper.element(this.elem, 'swapB', elements[min]);
+      queue.push(swapper.steps(swapA, swapB));
     }
   }
-  return collection;
+
+  queue.push([swapA.reset, swapB.reset]);
+  queue = flatten(queue);
+  executeAsynchronously(queue, 500);
 };
 
 module.exports = SelectionSort;

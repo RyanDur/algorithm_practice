@@ -4,13 +4,12 @@ var Swapper = {
     element: function(element, className, original) {
       var elem = element.getElementsByClassName(className).item(0);
       elem.innerHTML = 0;
-      var position = parseInt(getPosition(original).x) - parseInt(getPosition(elem).x);
 
       return {
         elem: elem,
         original: original,
-        moveIntoPosition: function() {
-          elem.style.left = position + "px"; 
+        moveIntoPosition: function(original) {
+          elem.style.left = parseInt(getPosition(original).x) - parseInt(getPosition(elem).x) + "px"; 
         },
         moveUp: function() {
           elem.style.top = -original.offsetHeight + "px";
@@ -18,11 +17,10 @@ var Swapper = {
         moveDown: function() {
           elem.style.top = original.offsetHeight + "px";
         },
-        moveLeft: function() {
-          elem.style.left = position - elem.offsetWidth + "px";
-        },
-        moveRight: function() {
-          elem.style.left = position + elem.offsetWidth + "px";
+        swap: function(otherElem) {
+          var temp = parseInt(elem.style.left) - elem.offsetWidth + "px";
+          elem.style.left = parseInt(otherElem.style.left) + otherElem.offsetWidth + "px";
+          otherElem.style.left = temp;
         },
         putBackInLine: function() {
           elem.style.top = 0;
@@ -38,18 +36,16 @@ var Swapper = {
 
     steps: function(swapA, swapB) {
 
-      return [function stepOne() {
-               addSearch(swapA.original, swapB.original, swapA.elem, swapB.elem);
-               forEach([swapA, swapB], function(swap) {
-                swap.moveIntoPosition();
-               })
+      return [
+            function stepOne() {
+              addSearch(swapA.original, swapB.original, swapA.elem, swapB.elem);
 
               forEach([swapA, swapB], function(swap) {
                 swap.copyInnerHTML();
               });
             },
             function stepTwo() {
-               hide(swapA.original, swapB.original);
+              hide(swapA.original, swapB.original);
               makeVisible(swapA.elem, swapB.elem);
             },
             function stepThree() {
@@ -58,8 +54,7 @@ var Swapper = {
             },
             function stepFour() {
               swapInnerHTML(swapA.original, swapB.original);
-              swapA.moveRight();
-              swapB.moveLeft();
+              swapA.swap(swapB.elem);
             },
             function stepFive() {
               addSearch(swapB.original);
@@ -71,23 +66,35 @@ var Swapper = {
             },
             function stepSix() {
               removeSearch(swapA.elem, swapB.elem);
-               hide(swapA.elem, swapB.elem);
+              hide(swapA.elem, swapB.elem);
               makeVisible(swapA.original, swapB.original);
-            }];
+            }
+      ];
     },
 
     move: function(elements, index) {
       var now = elements[index];
       var after = elements[index+1];
-      if(index-1 > 0) {
-        var before = elements[index-1];
-      }
 
+      return [
+        function() {
+          addSearch(now);
+        },
+        function() {
+          removeSearch(now);
+          addSearch(after);
+        }]
+    },
+
+    addSearch: function(element) {
       return function() {
-        addSearch(now, after);
-        if(before) {
-          removeSearch(before);
-        }
+        addSearch(element);
+      }
+    },
+
+    removeSearch: function(element) {
+      return function() {
+        removeSearch(element);
       }
     }
 };

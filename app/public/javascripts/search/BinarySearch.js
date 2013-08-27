@@ -1,63 +1,66 @@
 "use strict";
 
 function BinarySearch(elem, collection) {
-  var collection = collection;
-  if(collection === undefined) {
-    collection = [0,1,2,3,4,5,6,7,8,9];
-  }
-  this.elem = appendUnorderedList(elem, collection);
+    var collection = collection;
+    if(collection === undefined) {
+        collection = [0,1,2,3,4,5,6,7,8,9];
+    }
+    this.elem = appendUnorderedList(elem, collection);
+    this.elements = this.elem.getElementsByTagName('li');
 };
 
 BinarySearch.prototype.search = function(value) {
-  var min = 0, lastMid, range;
-  var elements = this.elem.getElementsByTagName('li');
-  var max = elements.length-1;
-  clean(elements);
+    var min = 0, max = this.elements.length-1, mid, range, queue = [];
 
-  var t = setInterval(function() {
-    var mid = Math.floor((min + max)/2);
-    if (max < min) {
-      clearInterval(t);
-      return;
-    }
-    if(lastMid) {
-      addClass(elements[lastMid], 'ignore');
-      removeClass(elements[lastMid], 'search');
-    }
-    if(range) {
-      ignore(range, elements);
-    }
+    while(max >= min) {
+        mid = Math.floor((min + max)/2);
+        queue.push(search(this.elements[mid]));
 
-    addClass(elements[mid], 'search');
+        if(value > parseInt(this.elements[mid].innerHTML)) {
+            min = mid+1;
+            queue.push(ignore([0, min], this.elements, this.elements[mid]));
+        } else if(value < parseInt(this.elements[mid].innerHTML)) {
+            max = mid-1;
+            queue.push(ignore([mid, this.elements.length], this.elements, this.elements[mid]));
+        } else {
+            queue.push(found(this.elements[mid]));
+            return queue;
+        }
+    };
 
-    if(value > elements.item(mid).innerHTML) {
-      range = [0,mid];
-      lastMid = mid;
-      min = mid+1;
-    } else if(value < elements.item(mid).innerHTML) {
-      range = [mid+1, elements.length];
-      lastMid = mid;
-      max = mid-1;
-    } else {
-      addClass(elements[mid], 'found');
-      clearInterval(t);
-      return;
+    return queue;
+};
+
+BinarySearch.prototype.claenElements = function() {
+    forEach(this.elements, function(el) {
+        removeClass(el, 'found');
+        removeClass(el, 'search');
+        removeClass(el, 'ignore');
+    });
+};
+
+var search = function(elem) {
+    return function() {
+        addClass(elem, 'search');
     }
-  }, 2000);
+};
+
+var ignore = function(range, elements, elem) {
+    return function() {
+        removeClass(elem, 'search');
+        for(var i = range[0]; i < range[1]; i++) {
+            addClass(elements[i], 'ignore');
+        }
+    }
+};
+
+var found = function(elem) {
+    return function() {
+        addClass(elem, 'found');
+    }
 };
 
 var clean = function(elements) {
-  forEach(elements, function(el) {
-    removeClass(el, 'found');
-    removeClass(el, 'search');
-    removeClass(el, 'ignore');
-  });
-};
-
-var ignore = function(range, elements) {
-  for(var i = range[0]; i < range[1]; i++) {
-    addClass(elements[i], 'ignore');
-  }
 };
 
 module.exports = BinarySearch;

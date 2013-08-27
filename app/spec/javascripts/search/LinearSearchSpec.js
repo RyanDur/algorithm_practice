@@ -14,57 +14,39 @@ describe('LinearSearch', function() {
   });
 
   describe('search', function() {
-    beforeEach(function() {
-      jasmine.Clock.useMock();
+    it('should return an instruction set that finds the element', function() {
+      var queue = ls.search(8);
+      expect(queue.length).toBeGreaterThan(0);
+
+      forEach(queue, function(elem) {
+        expect(typeof elem).toEqual("function");
+      });
+
+      queue = ls.search(3);
+      forEach(queue, function(func) {
+        func();
+      });
+
+      expect($('.index1')).toHaveClass('found');
+
+      queue = ls.search(7);
+      forEach(queue, function(func) {
+        func();
+      });
+
+      expect($('.index9')).toHaveClass('found');
     });
+  });
 
-    it('should search for a given value', function() {
-      ls.search(8);
-      jasmine.Clock.tick(10000);
-      expect($('.index7')).toHaveClass('found');
+  describe('cleanElements', function() {
+    it('should reset the elements if called multiple times', function() {
+      var queue = ls.search(7);
+      forEach(queue, function(func) {
+        func();
+      });
 
-      ls.search(1);
-      jasmine.Clock.tick(10000);
-      expect($('.index4')).toHaveClass('found');
-    });
+      ls.cleanElements();
 
-    it('should only have one search and one found class in the list', function() {
-      ls.search(8);
-      jasmine.Clock.tick(8000);
-      expect($('.index0')).not.toHaveClass('found');
-      expect($('.index0')).not.toHaveClass('search');
-
-      expect($('.index1')).not.toHaveClass('found');
-      expect($('.index1')).not.toHaveClass('search');
-
-      expect($('.index2')).not.toHaveClass('found');
-      expect($('.index2')).not.toHaveClass('search');
-
-      expect($('.index3')).not.toHaveClass('found');
-      expect($('.index3')).not.toHaveClass('search');
-
-      expect($('.index4')).not.toHaveClass('found');
-      expect($('.index4')).not.toHaveClass('search');
-
-      expect($('.index5')).not.toHaveClass('found');
-      expect($('.index5')).not.toHaveClass('search');
-
-      expect($('.index6')).not.toHaveClass('found');
-      expect($('.index6')).not.toHaveClass('search');
-
-      expect($('.index7')).toHaveClass('found');
-      expect($('.index7')).toHaveClass('search');
-
-      expect($('.index8')).not.toHaveClass('found');
-      expect($('.index8')).not.toHaveClass('search');
-
-      expect($('.index9')).not.toHaveClass('found');
-      expect($('.index9')).not.toHaveClass('search');
-    });
-
-    it('should stop animation and return if the value is not in the list', function() {
-      ls.search(10);
-      jasmine.Clock.tick(10000);
       forEach($('.collection > li'), function(li) {
         expect(li).not.toHaveClass('search');
         expect(li).not.toHaveClass('found');

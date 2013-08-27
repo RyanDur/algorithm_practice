@@ -18,35 +18,32 @@ describe('BinarySearch', function() {
   });
 
   describe('search', function() {
-    it('should return a queue of functions', function() {
+    it('should return an instruction set that finds the element', function() {
       var queue = bs.search(8);
 
       expect(queue.length).toBeGreaterThan(0);
       forEach(queue, function(elem) {
         expect(typeof elem).toEqual("function");
       });
-    });
 
-    it('should return an instruction set that finds the element', function() {
-      jasmine.Clock.useMock();
       var queue = bs.search(8);
+      forEach(queue, function(func) {
+        func();
+      });
 
-      executeAsynchronously(queue, 1);
-      jasmine.Clock.tick(100);
       expect(parseInt($('.index8').html())).toEqual(8);
       expect($('.index8')).toHaveClass('found');
     });
   });
 
   describe('cleanElements', function() {
-    it('should reset the elements if called multiple times', function() {
-      jasmine.Clock.useMock();
-
+    it('should reset the elements', function() {
       var queue = bs.search(5);
-      executeAsynchronously(queue, 1);
-      jasmine.Clock.tick(1000);
+      forEach(queue, function(func) {
+        func();
+      });
 
-      bs.claenElements();
+      bs.cleanElements();
       forEach($('.collection > li'), function(li) {
         expect(li).not.toHaveClass('found');
         expect(li).not.toHaveClass('search');

@@ -18,16 +18,16 @@ document.onreadystatechange = function() {
     var bs = new BinarySearch(demo1);
     var bsort = new BubbleSort(demo2);
     var ss = new SelectionSort(demo3);
-/*
-    ls.search(Math.floor(Math.random() * 10));
+
+    executeAsynchronously(ls.search(Math.floor(Math.random() * 10)), 400);
     setInterval(function() {
-      ls.search(Math.floor(Math.random() * 11));
+      ls.cleanElements();
+      executeAsynchronously(ls.search(Math.floor(Math.random() * 11)), 400);
     }, time);
-*/
-    var queue = bs.search(Math.floor(Math.random() * 10));
-    executeAsynchronously(queue, 1000);
+
+    executeAsynchronously(bs.search(Math.floor(Math.random() * 10)), 1000);
     setInterval(function() {
-      bs.claenElements();
+      bs.cleenElements();
       executeAsynchronously(bs.search(Math.floor(Math.random() * 11)), 1000);
     }, time);
 /*

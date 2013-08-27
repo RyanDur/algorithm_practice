@@ -31,7 +31,7 @@ BinarySearch.prototype.search = function(value) {
     return queue;
 };
 
-BinarySearch.prototype.claenElements = function() {
+BinarySearch.prototype.cleanElements = function() {
     forEach(this.elements, function(el) {
         removeClass(el, 'found');
         removeClass(el, 'search');

@@ -3,7 +3,7 @@
 var forEach = function(collection, func) {
   for(var i = 0; i < collection.length; i++) {
     var val = func(collection[i], i);
-    if(val === false) {
+    if(val !== undefined) {
       return;
     }
   }
@@ -119,7 +119,7 @@ var makeVisible = function() {
     });
 };
 
-var removeSearch = function() {
+var removeSearches = function() {
     forEach(arguments, function(elem) {
         removeClass(elem, 'search');
     });
@@ -147,3 +147,21 @@ var executeAsynchronously = function(functions, timeout) {
         setTimeout(func, index*timeout);
     });
 };
+
+var found = function(elem) {
+  return function() {
+    addClass(elem, 'found');
+  }
+};
+
+var search = function(elem) {
+  return function() {
+    addClass(elem, 'search');
+  }
+};
+
+var removeSearch = function(elem) {
+  return function() {
+    removeClass(elem, 'search');
+  }
+}

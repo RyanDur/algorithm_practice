@@ -123,14 +123,14 @@ document.onreadystatechange = function() {
     var bs = new BinarySearch(demo1);
     var bsort = new BubbleSort(demo2);
     var ss = new SelectionSort(demo3);
-/*
-    ls.search(Math.floor(Math.random() * 10));
+
+    executeAsynchronously(ls.search(Math.floor(Math.random() * 10)), 400);
     setInterval(function() {
-      ls.search(Math.floor(Math.random() * 11));
+      ls.c();
+      executeAsynchronously(ls.search(Math.floor(Math.random() * 11)), 400);
     }, time);
-*/
-    var queue = bs.search(Math.floor(Math.random() * 10));
-    executeAsynchronously(queue, 1000);
+
+    executeAsynchronously(bs.search(Math.floor(Math.random() * 10)), 1000);
     setInterval(function() {
       bs.claenElements();
       executeAsynchronously(bs.search(Math.floor(Math.random() * 11)), 1000);
@@ -223,36 +223,29 @@ function LinearSearch(elem, collection) {
     collection = [4,3,6,7,8,9,5,0,1,2];
   }
   this.elem = appendUnorderedList(elem, collection);
+  this.list = this.elem.getElementsByTagName('li');
 };
 
 LinearSearch.prototype.search = function(value) {
-  var index = 0, list = this.elem.getElementsByTagName('li');
-  forEach(list, function(li) {
+  var queue = [];
+
+  forEach(this.list, function(elem, index) {
+    queue.push(search(elem));
+    if(parseInt(elem.innerHTML) === value) {
+      queue.push(found(elem));
+      return queue;
+    }
+    queue.push(removeSearch(elem));
+  });
+
+  return queue;
+};
+
+LinearSearch.prototype.c = function() {
+  forEach(this.list, function(li) {
     removeClass(li, 'search');
     removeClass(li, 'found');
   });
-
-  var t = setInterval(function() { 
-    if(index >= list.length) {
-      removeClass(list[index-1], 'search');
-      clearInterval(t);
-      return;
-    }
-    if(index > 0) {
-      removeClass(list[index-1], 'search');
-    }
-    var li = list[index];
-
-    addClass(li, 'search');
-
-    if (li.innerHTML == value) {
-      addClass(li, 'found');
-      clearInterval(t);
-      return;
-    }
-
-    index++;
-  }, 800);
 };
 
 module.exports = LinearSearch;

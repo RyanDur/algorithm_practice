@@ -27,15 +27,17 @@ document.onreadystatechange = function() {
 
     executeAsynchronously(bs.search(Math.floor(Math.random() * 10)), 1000);
     setInterval(function() {
-      bs.cleenElements();
+      bs.cleanElements();
       executeAsynchronously(bs.search(Math.floor(Math.random() * 11)), 1000);
     }, time);
-/*
-    bsort.sort();
-    setInterval(function() {
-      bsort.sort();
-    }, 150000);
 
+    executeAsynchronously(bsort.sort(), 550);
+    setInterval(function() {
+      bsort.reset();
+      executeAsynchronously(bsort.sort(), 550);
+    }, 160000);
+
+    /*
     ss.sort();
   */
   }

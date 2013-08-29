@@ -102,50 +102,56 @@ var resetCollection = function(elements) {
 }
 
 var addSearch = function() {
-    forEach(arguments, function(elem) {
-        addClass(elem, 'search');
+  var array = arguments;
+  return function() {
+    forEach(array, function(elem) {
+      addClass(elem, 'search');
     });
+  }
 };
 
 var hide = function() {
-    forEach(arguments, function(elem) {
-        elem.style.visibility = "hidden";
-    });
+  forEach(arguments, function(elem) {
+    elem.style.visibility = "hidden";
+  });
 };
 
 var makeVisible = function() {
-    forEach(arguments, function(elem) {
-        elem.style.visibility = "visible";
-    });
-};
-
-var removeSearches = function() {
-    forEach(arguments, function(elem) {
-        removeClass(elem, 'search');
-    });
+  forEach(arguments, function(elem) {
+    elem.style.visibility = "visible";
+  });
 };
 
 var removeIgnore = function() {
-    var array = arguments;
-    return function() {
-        forEach(array, function(elem) {
-            removeClass(elem, 'ignore');
-        });
-    };
+  var elements = arguments;
+  return function() {
+    forEach(elements, function(element) {
+      removeClass(element, 'ignore');
+    });
+  };
+};
+
+var removeSearch = function() {
+  var array = arguments;
+  return function() {
+    forEach(array, function(elem) {
+      removeClass(elem, 'search');
+    });
+  };
 };
 
 var clean = function(elements, length) {
-    return function() {
-        for(var i = 0; i < length; i++) {
-            removeSearch(elements[i]);
-        }
-    };
+  return function() {
+    for(var i = 0; i < length; i++) {
+      removeSearch(elements[i]);
+    }
+  };
 };
 
 var executeAsynchronously = function(functions, timeout) {
-    forEach(functions, function(func, index) {
-        setTimeout(func, index*timeout);
-    });
+  forEach(functions, function(func, index) {
+    setTimeout(func, index*timeout);
+  });
 };
 
 var found = function(elem) {
@@ -154,14 +160,85 @@ var found = function(elem) {
   }
 };
 
-var search = function(elem) {
-  return function() {
-    addClass(elem, 'search');
+var swapElement = function(elem, original) {
+  elem.innerHTML = 0;
+  var position = parseInt(getPosition(original).x) - parseInt(getPosition(elem).x);
+
+  return {
+    elem: elem,
+    original: original,
+    copyElement: function() {
+      elem.innerHTML = original.innerHTML;
+      elem.style.left = position + "px"; 
+    },
+    moveUp: function() {
+      elem.style.top = -elem.offsetHeight + "px";
+    },
+    moveDown: function() {
+      elem.style.top = elem.offsetHeight + "px";
+    },
+    swap: function(otherElem) {
+      var temp = parseInt(elem.style.left) - elem.offsetWidth + "px";
+      elem.style.left = parseInt(otherElem.elem.style.left) + otherElem.elem.offsetWidth + "px";
+      otherElem.elem.style.left = temp;
+    },
+    putBackInLine: function() {
+      elem.style.top = 0;
+    },
+    reset: function() {
+      elem.style.left = 0;
+    }
   }
 };
 
-var removeSearch = function(elem) {
-  return function() {
-    removeClass(elem, 'search');
-  }
-}
+var steps = function(swapA, swapB) {
+  var swapElements = function(func) {
+    forEach([swapA, swapB], function(swap) {
+      swap[func]();
+    });
+  };
+
+  return [
+    function stepOne() {
+      swapElements('copyElement');
+    },
+    function stepTwo() {
+      hide(swapA.original, swapB.original);
+      makeVisible(swapA.elem, swapB.elem);
+      addSearch(swapA.elem, swapB.elem)();
+    },
+    function stepThree() {
+      swapA.moveUp();
+      swapB.moveDown();
+    },
+    function stepFour() {
+      swapInnerHTML(swapA.original, swapB.original);
+      swapA.swap(swapB);
+    },
+    function stepFive() {
+      swapElements('putBackInLine');
+    },
+    function stepSix() {
+      removeSearch(swapA.elem, swapB.elem)();
+      hide(swapA.elem, swapB.elem);
+      makeVisible(swapA.original, swapB.original);
+    }
+  ];
+};
+
+var move = function(elements, index, length) {
+  var before = elements[index-1], now = elements[index], after = elements[index+1];
+  var moveQueue = [
+    function() {
+      if(index-1 >= 0) {
+        removeSearch(before)
+      }
+      addSearch(now)();
+    },
+    addSearch(after)
+  ];
+
+    moveQueue.push(removeSearch(now,after));
+
+  return moveQueue;
+};

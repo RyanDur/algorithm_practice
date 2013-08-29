@@ -13,7 +13,7 @@ LinearSearch.prototype.search = function(value) {
   var queue = [];
 
   forEach(this.list, function(elem, index) {
-    queue.push(search(elem));
+    queue.push(addSearch(elem));
     if(parseInt(elem.innerHTML) === value) {
       queue.push(found(elem));
       return queue;
@@ -24,7 +24,7 @@ LinearSearch.prototype.search = function(value) {
   return queue;
 };
 
-LinearSearch.prototype.c = function() {
+LinearSearch.prototype.cleanElements = function() {
   forEach(this.list, function(li) {
     removeClass(li, 'search');
     removeClass(li, 'found');

@@ -1,11 +1,8 @@
 "use strict";
-var swapper = require('../SwapElement');
+var swapper;
 
-function BubbleSort(elem, collection) {
-    this.demo = false;
-
+function BubbleSort(elem, collection, swapper) {
     if(collection === undefined) {
-        this.demo = true;
         collection = [9,8,7,6,5,4,3,2,1,0];
     }
 
@@ -20,16 +17,22 @@ function BubbleSort(elem, collection) {
     });
 };
 
+var element = function(elem) {
+    return {
+        getClass: function(className){
+            return elem.getElementsByClassName(className).item(0);
+        }
+    }
+};
+
 BubbleSort.prototype.sort = function() {
     var queue = [], elements = this.elements, swapA, swapB;
+    var elem = element(this.elem);
+    var elemA = elem.getClass('swapA');
+    var elemB = elem.getClass('swapB')
 
     addClassToCollection(elements, 'ignore', this.length);
     queue.push(removeIgnore(elements[this.length-1]));
-
-    if(this.demo) {
-        shuffleInnerHTML(elements, this.length);
-        this.collection = resetCollection(elements);
-    }
 
     for(var j = this.length-2; j >= 0; j--) {
         for(var i = j; i < this.length - 1; i++) {
@@ -38,21 +41,24 @@ BubbleSort.prototype.sort = function() {
             }
             if(this.collection[i] > this.collection[i+1]) {
                 swap(this.collection, i, i+1);
-                swapA = swapper.element(this.elem, 'swapA', elements[i]);
-                swapB = swapper.element(this.elem, 'swapB', elements[i+1]);
-                queue.push(swapper.steps(swapA, swapB));
+                swapA = swapElement(elemA, elements[i]);
+                swapB = swapElement(elemB, elements[i+1]);
+                queue.push(steps(swapA, swapB));
             } else {
-                queue.push(swapper.move(elements, i));
-            }
-            if(i+1 >= this.length-1) {
-                queue.push(clean(elements, this.length));
+                queue.push(move(elements, i, this.length));
             }
         }
     }
 
-    queue.push([swapA.reset, swapB.reset]);
-    queue = flatten(queue);
-    executeAsynchronously(queue, 500);
+    if(swapA != undefined) {
+        queue.push([swapA.reset, swapB.reset]);
+    }
+    return flatten(queue);
+};
+
+BubbleSort.prototype.reset = function() {
+    shuffleInnerHTML(this.elements, this.length);
+    this.collection = resetCollection(this.elements);
 };
 
 module.exports = BubbleSort;

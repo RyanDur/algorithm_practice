@@ -1,9 +1,5 @@
-beforeEach(function() {
-  this.addMatchers({
-    toBePlaying: function(expectedSong) {
-      var player = this.actual;
-      return player.currentlyPlayingSong === expectedSong && 
-             player.isPlaying;
-    }
+var execute = function(queue) {
+  forEach(queue, function(func) {
+    func();
   });
-});
+};

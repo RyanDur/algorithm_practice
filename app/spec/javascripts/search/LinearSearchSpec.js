@@ -23,16 +23,12 @@ describe('LinearSearch', function() {
       });
 
       queue = ls.search(3);
-      forEach(queue, function(func) {
-        func();
-      });
+      execute(queue);
 
       expect($('.index1')).toHaveClass('found');
 
       queue = ls.search(7);
-      forEach(queue, function(func) {
-        func();
-      });
+      execute(queue);
 
       expect($('.index9')).toHaveClass('found');
     });
@@ -41,9 +37,7 @@ describe('LinearSearch', function() {
   describe('cleanElements', function() {
     it('should reset the elements if called multiple times', function() {
       var queue = ls.search(7);
-      forEach(queue, function(func) {
-        func();
-      });
+      execute(queue);
 
       ls.cleanElements();
 

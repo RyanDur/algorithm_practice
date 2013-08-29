@@ -22,14 +22,10 @@ describe('BinarySearch', function() {
       var queue = bs.search(8);
 
       expect(queue.length).toBeGreaterThan(0);
-      forEach(queue, function(elem) {
-        expect(typeof elem).toEqual("function");
-      });
+      execute(queue);
 
       var queue = bs.search(8);
-      forEach(queue, function(func) {
-        func();
-      });
+      execute(queue);
 
       expect(parseInt($('.index8').html())).toEqual(8);
       expect($('.index8')).toHaveClass('found');
@@ -39,9 +35,7 @@ describe('BinarySearch', function() {
   describe('cleanElements', function() {
     it('should reset the elements', function() {
       var queue = bs.search(5);
-      forEach(queue, function(func) {
-        func();
-      });
+      execute(queue);
 
       bs.cleanElements();
       forEach($('.collection > li'), function(li) {

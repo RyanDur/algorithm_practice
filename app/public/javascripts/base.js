@@ -1,106 +1,4 @@
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
-
-var Swapper = {
-    element: function(element, className, original) {
-      var elem = element.getElementsByClassName(className).item(0);
-      elem.innerHTML = 0;
-
-      return {
-        elem: elem,
-        original: original,
-        moveIntoPosition: function(original) {
-          elem.style.left = parseInt(getPosition(original).x) - parseInt(getPosition(elem).x) + "px"; 
-        },
-        moveUp: function() {
-          elem.style.top = -original.offsetHeight + "px";
-        },
-        moveDown: function() {
-          elem.style.top = original.offsetHeight + "px";
-        },
-        swap: function(otherElem) {
-          var temp = parseInt(elem.style.left) - elem.offsetWidth + "px";
-          elem.style.left = parseInt(otherElem.style.left) + otherElem.offsetWidth + "px";
-          otherElem.style.left = temp;
-        },
-        putBackInLine: function() {
-          elem.style.top = 0;
-        },
-        copyInnerHTML: function() {
-          elem.innerHTML = original.innerHTML;
-        },
-        reset: function() {
-          elem.style.left = 0;
-        }
-      }
-    },
-
-    steps: function(swapA, swapB) {
-
-      return [
-            function stepOne() {
-              addSearch(swapA.original, swapB.original, swapA.elem, swapB.elem);
-
-              forEach([swapA, swapB], function(swap) {
-                swap.copyInnerHTML();
-              });
-            },
-            function stepTwo() {
-              hide(swapA.original, swapB.original);
-              makeVisible(swapA.elem, swapB.elem);
-            },
-            function stepThree() {
-              swapA.moveUp();
-              swapB.moveDown();
-            },
-            function stepFour() {
-              swapInnerHTML(swapA.original, swapB.original);
-              swapA.swap(swapB.elem);
-            },
-            function stepFive() {
-              addSearch(swapB.original);
-              removeSearch(swapA.original);
-
-              forEach([swapA, swapB], function(swap) {
-                swap.putBackInLine();
-              });
-            },
-            function stepSix() {
-              removeSearch(swapA.elem, swapB.elem);
-              hide(swapA.elem, swapB.elem);
-              makeVisible(swapA.original, swapB.original);
-            }
-      ];
-    },
-
-    move: function(elements, index) {
-      var now = elements[index];
-      var after = elements[index+1];
-
-      return [
-        function() {
-          addSearch(now);
-        },
-        function() {
-          removeSearch(now);
-          addSearch(after);
-        }]
-    },
-
-    addSearch: function(element) {
-      return function() {
-        addSearch(element);
-      }
-    },
-
-    removeSearch: function(element) {
-      return function() {
-        removeSearch(element);
-      }
-    }
-};
-
-module.exports = Swapper;
 
 },{}],2:[function(require,module,exports){
 "use strict";
@@ -126,21 +24,23 @@ document.onreadystatechange = function() {
 
     executeAsynchronously(ls.search(Math.floor(Math.random() * 10)), 400);
     setInterval(function() {
-      ls.c();
+      ls.cleanElements();
       executeAsynchronously(ls.search(Math.floor(Math.random() * 11)), 400);
     }, time);
 
     executeAsynchronously(bs.search(Math.floor(Math.random() * 10)), 1000);
     setInterval(function() {
-      bs.claenElements();
+      bs.cleanElements();
       executeAsynchronously(bs.search(Math.floor(Math.random() * 11)), 1000);
     }, time);
-/*
-    bsort.sort();
-    setInterval(function() {
-      bsort.sort();
-    }, 150000);
 
+    executeAsynchronously(bsort.sort(), 550);
+    setInterval(function() {
+      bsort.reset();
+      executeAsynchronously(bsort.sort(), 550);
+    }, 160000);
+
+    /*
     ss.sort();
   */
   }
@@ -180,7 +80,7 @@ BinarySearch.prototype.search = function(value) {
     return queue;
 };
 
-BinarySearch.prototype.claenElements = function() {
+BinarySearch.prototype.cleanElements = function() {
     forEach(this.elements, function(el) {
         removeClass(el, 'found');
         removeClass(el, 'search');
@@ -230,7 +130,7 @@ LinearSearch.prototype.search = function(value) {
   var queue = [];
 
   forEach(this.list, function(elem, index) {
-    queue.push(search(elem));
+    queue.push(addSearch(elem));
     if(parseInt(elem.innerHTML) === value) {
       queue.push(found(elem));
       return queue;
@@ -241,7 +141,7 @@ LinearSearch.prototype.search = function(value) {
   return queue;
 };
 
-LinearSearch.prototype.c = function() {
+LinearSearch.prototype.cleanElements = function() {
   forEach(this.list, function(li) {
     removeClass(li, 'search');
     removeClass(li, 'found');
@@ -252,13 +152,10 @@ module.exports = LinearSearch;
 
 },{}],5:[function(require,module,exports){
 "use strict";
-var swapper = require('../SwapElement');
+var swapper;
 
-function BubbleSort(elem, collection) {
-    this.demo = false;
-
+function BubbleSort(elem, collection, swapper) {
     if(collection === undefined) {
-        this.demo = true;
         collection = [9,8,7,6,5,4,3,2,1,0];
     }
 
@@ -273,16 +170,22 @@ function BubbleSort(elem, collection) {
     });
 };
 
+var element = function(elem) {
+    return {
+        getClass: function(className){
+            return elem.getElementsByClassName(className).item(0);
+        }
+    }
+};
+
 BubbleSort.prototype.sort = function() {
     var queue = [], elements = this.elements, swapA, swapB;
+    var elem = element(this.elem);
+    var elemA = elem.getClass('swapA');
+    var elemB = elem.getClass('swapB')
 
     addClassToCollection(elements, 'ignore', this.length);
     queue.push(removeIgnore(elements[this.length-1]));
-
-    if(this.demo) {
-        shuffleInnerHTML(elements, this.length);
-        this.collection = resetCollection(elements);
-    }
 
     for(var j = this.length-2; j >= 0; j--) {
         for(var i = j; i < this.length - 1; i++) {
@@ -291,26 +194,29 @@ BubbleSort.prototype.sort = function() {
             }
             if(this.collection[i] > this.collection[i+1]) {
                 swap(this.collection, i, i+1);
-                swapA = swapper.element(this.elem, 'swapA', elements[i]);
-                swapB = swapper.element(this.elem, 'swapB', elements[i+1]);
-                queue.push(swapper.steps(swapA, swapB));
+                swapA = swapElement(elemA, elements[i]);
+                swapB = swapElement(elemB, elements[i+1]);
+                queue.push(steps(swapA, swapB));
             } else {
-                queue.push(swapper.move(elements, i));
-            }
-            if(i+1 >= this.length-1) {
-                queue.push(clean(elements, this.length));
+                queue.push(move(elements, i, this.length));
             }
         }
     }
 
-    queue.push([swapA.reset, swapB.reset]);
-    queue = flatten(queue);
-    executeAsynchronously(queue, 500);
+    if(swapA != undefined) {
+        queue.push([swapA.reset, swapB.reset]);
+    }
+    return flatten(queue);
+};
+
+BubbleSort.prototype.reset = function() {
+    shuffleInnerHTML(this.elements, this.length);
+    this.collection = resetCollection(this.elements);
 };
 
 module.exports = BubbleSort;
 
-},{"../SwapElement":1}],6:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 var swapper = require('../SwapElement');
 

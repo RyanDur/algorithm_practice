@@ -1,9 +1,9 @@
 "use strict";
 var swapper;
 
-function BubbleSort(elem, collection, swapper) {
+function BubbleSort(elem, collection) {
     if(collection === undefined) {
-        collection = [9,8,7,6,5,4,3,2,1,0];
+        collection = [0,1,2,3,4,5,6,7,8,9];
     }
 
     this.elem = appendUnorderedList(elem, collection);
@@ -29,23 +29,26 @@ BubbleSort.prototype.sort = function() {
     var queue = [], elements = this.elements, swapA, swapB;
     var elem = element(this.elem);
     var elemA = elem.getClass('swapA');
-    var elemB = elem.getClass('swapB')
+    var elemB = elem.getClass('swapB');
+    addSearch(elemA, elemB)();
 
     addClassToCollection(elements, 'ignore', this.length);
     queue.push(removeIgnore(elements[this.length-1]));
 
     for(var j = this.length-2; j >= 0; j--) {
-        for(var i = j; i < this.length - 1; i++) {
+        for(var i = j; i < this.length-1; i++) {
             if(i === j) {
                 queue.push(removeIgnore(elements[i]));
             }
+            queue.push(move(elements, i));
             if(this.collection[i] > this.collection[i+1]) {
                 swap(this.collection, i, i+1);
                 swapA = swapElement(elemA, elements[i]);
                 swapB = swapElement(elemB, elements[i+1]);
                 queue.push(steps(swapA, swapB));
-            } else {
-                queue.push(move(elements, i, this.length));
+            }
+            if(i+1 >= this.length-1) {
+                queue.push(removeSearch(elements[i], elements[i+1]));
             }
         }
     }

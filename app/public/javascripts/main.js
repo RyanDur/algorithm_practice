@@ -31,11 +31,11 @@ document.onreadystatechange = function() {
       executeAsynchronously(bs.search(Math.floor(Math.random() * 11)), 1000);
     }, time);
 
-    executeAsynchronously(bsort.sort(), 550);
+    executeAsynchronously(bsort.sort(), 500);
     setInterval(function() {
       bsort.reset();
-      executeAsynchronously(bsort.sort(), 550);
-    }, 160000);
+      executeAsynchronously(bsort.sort(), 500);
+    }, 140000);
 
     /*
     ss.sort();

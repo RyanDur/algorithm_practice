@@ -44,6 +44,7 @@ var appendUnorderedList = function(elem, collection, className) {
 
   return elem;
 };
+
 var addClassToCollection = function(elements, className, length) {
   for(var i = 0; i < length; i++) {
     addClass(elements[i], className);
@@ -51,14 +52,8 @@ var addClassToCollection = function(elements, className, length) {
 }
 
 var getPosition = function(element) {
-  var xPosition = 0;
-  var yPosition = 0;
-
-  while(element) {
-    xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-    yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-    element = element.offsetParent;
-  }
+  var xPosition = (element.offsetLeft - element.scrollLeft + element.clientLeft);
+  var yPosition = (element.offsetTop - element.scrollTop + element.clientTop);
   return { x: xPosition, y: yPosition  };
 };
 
@@ -83,10 +78,6 @@ var flatten = function(array) {
     }
   }
   return flat;
-};
-
-var copyInnerHTML = function(copy, original) {
-  copy.innerHTML = original.innerHTML;
 };
 
 var shuffleInnerHTML = function(o, length) {
@@ -140,14 +131,6 @@ var removeSearch = function() {
   };
 };
 
-var clean = function(elements, length) {
-  return function() {
-    for(var i = 0; i < length; i++) {
-      removeSearch(elements[i]);
-    }
-  };
-};
-
 var executeAsynchronously = function(functions, timeout) {
   forEach(functions, function(func, index) {
     setTimeout(func, index*timeout);
@@ -181,6 +164,10 @@ var swapElement = function(elem, original) {
       var temp = parseInt(elem.style.left) - elem.offsetWidth + "px";
       elem.style.left = parseInt(otherElem.elem.style.left) + otherElem.elem.offsetWidth + "px";
       otherElem.elem.style.left = temp;
+
+      var temp1 = otherElem.original.innerHTML;
+      otherElem.original.innerHTML = original.innerHTML;
+      original.innerHTML = temp1;
     },
     putBackInLine: function() {
       elem.style.top = 0;
@@ -205,21 +192,18 @@ var steps = function(swapA, swapB) {
     function stepTwo() {
       hide(swapA.original, swapB.original);
       makeVisible(swapA.elem, swapB.elem);
-      addSearch(swapA.elem, swapB.elem)();
     },
     function stepThree() {
       swapA.moveUp();
       swapB.moveDown();
     },
     function stepFour() {
-      swapInnerHTML(swapA.original, swapB.original);
       swapA.swap(swapB);
     },
     function stepFive() {
       swapElements('putBackInLine');
     },
     function stepSix() {
-      removeSearch(swapA.elem, swapB.elem)();
       hide(swapA.elem, swapB.elem);
       makeVisible(swapA.original, swapB.original);
     }
@@ -231,14 +215,15 @@ var move = function(elements, index, length) {
   var moveQueue = [
     function() {
       if(index-1 >= 0) {
-        removeSearch(before)
+        removeSearch(before)();
       }
-      addSearch(now)();
-    },
-    addSearch(after)
+      addSearch(now,after)();
+    }
   ];
 
+  if(index+1 >= length-1) {
     moveQueue.push(removeSearch(now,after));
+  }
 
   return moveQueue;
 };

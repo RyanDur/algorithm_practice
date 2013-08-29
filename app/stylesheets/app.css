@@ -7226,10 +7226,10 @@ a.th {
 }
 /* line 62, ../sass/app.scss */
 #demo0 li {
-  -webkit-transition: all 0.5s ease-out;
-  -moz-transition: all 0.5s ease-out;
-  -o-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
   opacity: 0.5;
   display: inline;
   padding: .2em 1em;
@@ -7269,10 +7269,10 @@ a.th {
 }
 /* line 62, ../sass/app.scss */
 #demo1 li {
-  -webkit-transition: all 0.5s ease-out;
-  -moz-transition: all 0.5s ease-out;
-  -o-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
   opacity: 0.5;
   display: inline;
   padding: .2em 1em;
@@ -7312,10 +7312,10 @@ a.th {
 }
 /* line 62, ../sass/app.scss */
 #demo2 li {
-  -webkit-transition: all 0.5s ease-out;
-  -moz-transition: all 0.5s ease-out;
-  -o-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
   opacity: 0.5;
   display: inline;
   padding: .2em 1em;
@@ -7355,10 +7355,10 @@ a.th {
 }
 /* line 62, ../sass/app.scss */
 #demo3 li {
-  -webkit-transition: all 0.5s ease-out;
-  -moz-transition: all 0.5s ease-out;
-  -o-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
   opacity: 0.5;
   display: inline;
   padding: .2em 1em;

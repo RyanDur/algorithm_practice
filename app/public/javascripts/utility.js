@@ -188,10 +188,12 @@ var steps = function(swapA, swapB) {
   return [
     function stepOne() {
       swapElements('copyElement');
+      addSearch(swapA.original, swapB.original,swapA.elem,swapB.elem)();
     },
     function stepTwo() {
       hide(swapA.original, swapB.original);
       makeVisible(swapA.elem, swapB.elem);
+      removeSearch(swapA.original)();
     },
     function stepThree() {
       swapA.moveUp();
@@ -204,13 +206,14 @@ var steps = function(swapA, swapB) {
       swapElements('putBackInLine');
     },
     function stepSix() {
+      removeSearch(swapA.elem, swapB.elem)();
       hide(swapA.elem, swapB.elem);
       makeVisible(swapA.original, swapB.original);
     }
   ];
 };
 
-var move = function(elements, index, length) {
+var move = function(elements, index) {
   var before = elements[index-1], now = elements[index], after = elements[index+1];
   var moveQueue = [
     function() {
@@ -220,10 +223,6 @@ var move = function(elements, index, length) {
       addSearch(now,after)();
     }
   ];
-
-  if(index+1 >= length-1) {
-    moveQueue.push(removeSearch(now,after));
-  }
 
   return moveQueue;
 };

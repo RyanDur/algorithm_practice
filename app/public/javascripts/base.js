@@ -38,7 +38,7 @@ document.onreadystatechange = function() {
     setInterval(function() {
       bsort.reset();
       executeAsynchronously(bsort.sort(), 500);
-    }, 140000);
+    }, 150000);
 
     /*
     ss.sort();
@@ -156,7 +156,7 @@ var swapper;
 
 function BubbleSort(elem, collection) {
     if(collection === undefined) {
-        collection = [0,1,2,3,4,5,6,7,8,9];
+        collection = [9,8,7,6,5,4,3,2,1,0];
     }
 
     this.elem = appendUnorderedList(elem, collection);
@@ -183,7 +183,6 @@ BubbleSort.prototype.sort = function() {
     var elem = element(this.elem);
     var elemA = elem.getClass('swapA');
     var elemB = elem.getClass('swapB');
-    addSearch(elemA, elemB)();
 
     addClassToCollection(elements, 'ignore', this.length);
     queue.push(removeIgnore(elements[this.length-1]));
@@ -193,12 +192,13 @@ BubbleSort.prototype.sort = function() {
             if(i === j) {
                 queue.push(removeIgnore(elements[i]));
             }
-            queue.push(move(elements, i));
             if(this.collection[i] > this.collection[i+1]) {
                 swap(this.collection, i, i+1);
                 swapA = swapElement(elemA, elements[i]);
                 swapB = swapElement(elemB, elements[i+1]);
                 queue.push(steps(swapA, swapB));
+            } else {
+                queue.push(move(elements, i));
             }
             if(i+1 >= this.length-1) {
                 queue.push(removeSearch(elements[i], elements[i+1]));

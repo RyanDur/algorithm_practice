@@ -35,7 +35,7 @@ document.onreadystatechange = function() {
     setInterval(function() {
       bsort.reset();
       executeAsynchronously(bsort.sort(), 500);
-    }, 140000);
+    }, 150000);
 
     /*
     ss.sort();
